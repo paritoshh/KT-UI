@@ -1,0 +1,94 @@
+ <!-- A grey horizontal navbar that becomes vertical on small screens -->
+ <nav class="navbar navbar-expand-sm bg-light">
+
+  <!-- Links -->
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/home">Home Page</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" style="color:brown;" routerLink="/profile"><b>Update profile</b></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/sessions/recent">Load recent sessions</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/sessions/upcoming">Load upcoming sessions</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/sessions/own">Your sessions</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/sessions/host">Host a session</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/login">Logout</a>
+    </li>
+  </ul>
+
+</nav>
+<div class="container">
+    <h2>Update Profile</h2>
+    <div class="row">
+      <div class="col-lg-4">
+        
+          
+
+        <form (ngSubmit)="updateProfile()" #f="ngForm">
+            <div class="form-group">
+                <label>First Name:</label>
+                <input type="text" class="form-control" name=firstName class="form-control" #firstName="ngModel" [(ngModel)]="profile.firstName" required="required">
+              </div>
+              <div class="form-group">
+                  <label  >Last Name:</label>
+                  <input type="text" class="form-control" name=lname class="form-control" [(ngModel)]="profile.lastName" required>
+                </div>
+                <div class="form-group">
+                  <label  >Email:</label>
+                  <input type="email" class="form-control" name=email class="form-control" [(ngModel)]="loggedInEmail" disabled required>
+                </div>
+                <div class="form-group">
+                  <label>Location:</label>
+                  <input *ngIf ="profile"type="text" class="form-control" name=location class="form-control" [(ngModel)]="profile.location" >
+                </div>
+                <div class="form-group">
+                  <label>Date of birth:</label>
+                  <div class="form-group form-inline">  
+                    <div class="input-group">  
+                      <input class="form-control" placeholder="yyyy-mm-dd"  
+                             name="dob" [(ngModel)]="profile.dob" ngbDatepicker #d="ngbDatepicker">  
+                      <div class="input-group-append">  
+                        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>  
+                      </div>  
+                    </div>  
+                  </div>  
+                  <!-- <input *ngIf ="profile"type="text" class="form-control" name=dob class="form-control" [(ngModel)]="profile.dob" > -->
+                </div>
+                
+  
+
+   
+
+
+                
+                
+                <div class="form-group">
+                  <label  >Skills:</label>
+                  <input *ngIf ="profile"type="text" class="form-control" name=skills class="form-control" [(ngModel)]="profile.skills" >
+                </div>
+                <div class="form-group">
+                  <label  >Interested skills:</label>
+                  <input *ngIf ="profile"type="text" class="form-control" name=iSkills class="form-control" [(ngModel)]="profile.interestedSkills" >
+                </div>
+                <div class="form-group">
+                  <label>Experience(in years):</label>
+                  <input *ngIf ="profile" type="text" class="form-control" name=experience class="form-control" [(ngModel)]="profile.experience" >
+                </div>
+          <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Update</button>
+          <button type="button" class="btn btn-danger" routerLink="/home">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+

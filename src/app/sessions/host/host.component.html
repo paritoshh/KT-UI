@@ -1,0 +1,71 @@
+<!-- A grey horizontal navbar that becomes vertical on small screens -->
+<nav class="navbar navbar-expand-sm bg-light">
+
+  <!-- Links -->
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/home">Home Page</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/profile">Update profile</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/sessions/recent">Load recent sessions</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/sessions/upcoming">Load upcoming sessions</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/sessions/own">Your sessions</a>
+    </li>
+    <li class="nav-item">
+      <a style="color:brown;" class="nav-link" routerLink="/sessions/host"><b>Host a session</b></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/login">Logout</a>
+    </li>
+  </ul>
+
+</nav>
+<div class="container">
+  <h2>Create session</h2>
+  <div class="row">
+    <div class="col-lg-4">
+      <form (ngSubmit)="createSession()" #f="ngForm">
+        <div class="form-group">
+          <label>Topic:</label>
+          <input type="text" class="form-control" name=topic class="form-control" [(ngModel)]="session.topic"
+            required="required">
+        </div>
+        <div class="form-group">
+          <label>Description:</label>
+          <textarea type="text" cols="10" rows="5" class="form-control" name=description class="form-control"
+            [(ngModel)]="session.description" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Scheduled Date:</label>
+          <div class="form-group form-inline">
+            <div class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd" name="scheduledDate"
+                [(ngModel)]="session.scheduledDate" ngbDatepicker #d="ngbDatepicker" equired="required">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Tags:</label>
+          <input type="email" class="form-control" name=tags class="form-control" [(ngModel)]="tags" required>
+        </div>
+        <div class="form-group">
+          <label>Presenters:</label>
+          <input type="text" class="form-control" name=presenters class="form-control" [(ngModel)]="presenters">
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Create</button>
+        <button type="button" class="btn btn-danger" routerLink="/home">Cancel</button>
+        <!-- <a routerLink="/sessions/own">Your sessions</a><br/> -->
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,69 @@
+ <!-- A grey horizontal navbar that becomes vertical on small screens -->
+ <nav class="navbar navbar-expand-sm bg-light">
+
+    <!-- Links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/home">Home Page</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/profile">Update profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/sessions/recent">Load recent sessions</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/sessions/upcoming">Load upcoming sessions</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/sessions/own">Your sessions</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/sessions/host">Host a session</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login">Logout</a>
+      </li>
+    </ul>
+  
+  </nav>
+<div class="container">
+    <h4>Session details</h4>
+    <p *ngIf="isHostingSession else registerBlock">You are hosting this session.</p>
+    <ng-template #registerBlock>You can register for any session:</ng-template>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td><b>Topic:</b> {{session.topic}}</td>
+                <td><b>Date:</b> {{session.scheduledDate| json}}</td>
+            </tr>
+            <tr>
+                <td><b>Description:</b> {{session.description}}</td>
+            </tr>
+            <tr>
+                <td><b>Host:</b> {{presenters}}</td>
+            </tr>
+            <tr>
+                <td><b>Tags: </b>{{tags}}</td>
+                <td *ngIf="session.status.toLowerCase()=='scheduled' else feedback">
+                    <button style="cursor:pointer" [disabled]=isHostingSession
+                        (click)="registerUnregister()">{{isRegistered ? 'Unregister' : 'Register'}}</button>
+                    <!-- <button class="btn btn-primary" (click)="registerUnregister()">Reload Page</button> -->
+                </td>
+                
+            </tr>
+        </tbody>
+    </table>
+</div>
+<ng-template #feedback>
+    <td>
+        <button style="cursor:pointer" (click)="openFeedbackBlock();">{{isFeedBackSubmittedByThisUser ? 'View Feedback' : 'Submit Feedback'}}</button>
+    </td>
+</ng-template>
+<app-feedback *ngIf="isFeedbackVisible" 
+[session] = "session" 
+[isFeedBackSubmittedByThisUser] = "isFeedBackSubmittedByThisUser"
+[feedbackToPassInFeedbackComponent] = "feedbackToPassInFeedbackComponent"
+(feedbackSubmittedConfirmation)="feedbackSubmittedConfirmationUpdate($event)">
+</app-feedback>
+<!-- <app-feedback ></app-feedback> -->
