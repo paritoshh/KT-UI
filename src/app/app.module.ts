@@ -19,10 +19,12 @@ import { AuthGuard } from './auth-guard.service';
 import { SessionsComponent } from './sessions/sessions.component';
 import { HostComponent } from './sessions/host/host.component';
 import { OwnComponent } from './sessions/own/own.component';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-// Datepicker module
+import { DatePipe, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackComponent } from './sessions/sessions-list/session-details/feedback/feedback.component';
+// Datepicker module
+import { DatePickerModule ,DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
+
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ import { FeedbackComponent } from './sessions/sessions-list/session-details/feed
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,DateTimePickerModule,
+    DatePickerModule
   ],
   providers: [
     {provide : LocationStrategy , useClass: HashLocationStrategy},
@@ -53,6 +56,7 @@ import { FeedbackComponent } from './sessions/sessions-list/session-details/feed
      {provide: ProfileService},
      {provide: ProfileComponent},
      {provide: AuthGuard},
+     {provide: DatePipe},
     {provide: HTTP_INTERCEPTORS, useClass: HttpIntercepterBasicAuthService, multi: true }],
   bootstrap: [AppComponent]
 })

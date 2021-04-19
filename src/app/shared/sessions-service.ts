@@ -47,7 +47,7 @@ export class SessionsService {
 
     createSession(session: Session){
         return this.http
-            .post(`${API_URL}/session`,
+            .post<Session>(`${API_URL}/session`,
             session);
 
     }

@@ -64,6 +64,25 @@ export class AuthorizationService {
     });
   }
 
+  confirmAuthCodeLater(code, username) {
+    const user = {
+      Username : username,
+      Pool : userPool
+    };
+    return Observable.create(observer => {
+      const cognitoUser = new CognitoUser(user);
+      cognitoUser.confirmRegistration(code, true, function(err, result) {
+        if (err) {
+          console.log(err);
+          observer.error(err);
+        }
+        console.log("confirmAuthCode() success", result);
+        observer.next(result);
+        observer.complete();
+      });
+    });
+  }
+
   signIn(username: string, password: string): Observable<any> {
 
     //https://docs.aws.amazon.com/cognito/latest/developerguide/authentication.html

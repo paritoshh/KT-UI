@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Profile } from 'src/app/profile/profile.model';
@@ -38,14 +39,13 @@ export class SessionDetailsComponent implements OnInit {
   numberOfRegisteredSessions: number;
 
   constructor(private sessionService: SessionsService, private route: ActivatedRoute,
-    private profileService: ProfileService, private auth: AuthorizationService) { }
+    private profileService: ProfileService, private auth: AuthorizationService,
+    private datepipe: DatePipe) { }
 
   ngOnInit(): void {
 
     this.loggedInEmail = this.auth.getAuthenticatedUser();
     this.id = this.route.snapshot.params['id'];
-    // this.sessionType = this.route.snapshot.params['sessionType'];
-    console.log("id: " + this.id);
     //fetching a session details
 
     this.session = this.sessionService.fetchSessionDetailsById(this.id);
@@ -59,6 +59,7 @@ export class SessionDetailsComponent implements OnInit {
             this.tags = this.session.tags.join(", ");
             this.fetchProfileDetails();
             this.isFeedbackSubmitted();
+            this.session.scheduledDate = this.datepipe.transform(this.session.scheduledDate, 'MMM d, y, h:mm a');
           }
         );
     }
@@ -69,8 +70,6 @@ export class SessionDetailsComponent implements OnInit {
       this.tags = this.session.tags.join(", ");
       this.isFeedbackSubmitted();
     }
-
-    //this.feedback = this.session.feedback;
 
   }
   //fetching existing profile details

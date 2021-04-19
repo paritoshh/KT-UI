@@ -43,16 +43,9 @@
             [(ngModel)]="session.description" required></textarea>
         </div>
         <div class="form-group">
-          <label>Scheduled Date:</label>
-          <div class="form-group form-inline">
-            <div class="input-group">
-              <input class="form-control" placeholder="yyyy-mm-dd" name="scheduledDate"
-                [(ngModel)]="session.scheduledDate" ngbDatepicker #d="ngbDatepicker" equired="required">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
-              </div>
-            </div>
-          </div>
+          <label>Scheduled Date and time:</label>
+          <ejs-datetimepicker id='datetimepicker' placeholder='Select a date' name="scheduledDate"
+          [(ngModel)]="session.scheduledDate" [min]='minDate' [max]='maxDate' format ='dd/MM/yyyy HH:mm'></ejs-datetimepicker>
         </div>
         <div class="form-group">
           <label>Tags:</label>
@@ -64,7 +57,6 @@
         </div>
         <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Create</button>
         <button type="button" class="btn btn-danger" routerLink="/home">Cancel</button>
-        <!-- <a routerLink="/sessions/own">Your sessions</a><br/> -->
       </form>
     </div>
   </div>

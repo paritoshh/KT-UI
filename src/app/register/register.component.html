@@ -21,7 +21,9 @@
     </div>
     <br/>
     <div *ngIf="confirmCode" class="row message-row">
-      <h4>Please check your email for the validation code and enter it here:</h4>
+      <h4>Please check your email for the validation code and enter it here:<br>
+        (In case you didn't get validation code, you can come back on login screen and verify your account anytime.)
+      </h4>
       <div class="col-lg-4">
         <form (ngSubmit)="validateAuthCode(codeform)" #codeform="ngForm">
           <div class="form-group">
@@ -33,6 +35,6 @@
       </div>
     </div>
     <div *ngIf="codeWasConfirmed" class="row message-row">
-      <h4>Verification Code was confirmed, please click <a routerLink="/login">here</a> to login</h4>
+      <h4>Verification Code was confirmed, Login and update your profile to start using this application. <a routerLink="/login">login here.</a></h4>
     </div>
   </div>

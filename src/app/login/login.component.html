@@ -1,12 +1,14 @@
-<div class="container">
+<div *ngIf="!confirmCode && !codeWasConfirmed" class="container">
   <h2>Login Page</h2>
+  paritosh30sep@gmail.com
+  Mastermind_4
     <div class="row">
       <div class="col-lg-4">
         <form (ngSubmit)="onSubmit(f)" #f="ngForm">
   
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" name="email" id="email" value="paritosh.agarwal@logicmonitor.com" ngModel class="form-control" required>
+            <input type="email" name="email" id="email" ngModel class="form-control" required>
           </div>
   
           <div class="form-group">
@@ -28,3 +30,25 @@
     </div>
   </div>
   New user?  <a routerLink="/register">Register</a>
+<br>
+<br>
+  <button style="cursor:pointer"(click)="activateAccount()">Verify account</button>
+  <div *ngIf="confirmCode" class="row message-row">
+    <p>Please check your email for the validation code and enter it here:</p>
+    <div class="col-lg-4">
+      <form (ngSubmit)="validateAuthCode(codeform)" #codeform="ngForm">
+        <div class="form-group">
+          <label for="code">Email</label>
+          <input type="text" name="email" id="email" ngModel class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="code">Code</label>
+          <input type="text" name="code" id="code" ngModel class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Validate Code</button>
+      </form>
+    </div>
+  </div>
+  <div *ngIf="codeWasConfirmed" class="row message-row">
+    <p>Verification Code was confirmed, Login and update your profile to start using this application. <a routerLink="/login">login here.</a></p>
+  </div>

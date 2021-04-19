@@ -10,6 +10,10 @@ import { AuthorizationService } from '../shared/authorization.service';
 })
 export class LoginComponent implements OnInit {
 
+  confirmCode: boolean = false;
+  codeWasConfirmed: boolean = false;
+  error: string = "";
+
   ngOnInit(): void {
 
   }
@@ -32,5 +36,26 @@ export class LoginComponent implements OnInit {
         this._router.navigate(['home']);
       }
     );  
+  }
+
+  activateAccount(){
+    this.confirmCode = true;
+  }
+  validateAuthCode(form: NgForm) {
+    const code = form.value.code;
+    const email = form.value.email;
+    
+    this.auth.confirmAuthCodeLater(code, email).subscribe(
+      (data) => {
+        //this._router.navigateByUrl('/');
+        this.codeWasConfirmed = true;
+        this.confirmCode = false;
+        alert('You must update your profile to start using this application.');
+       
+      },
+      (err) => {
+        console.log(err);
+        this.error = "Confirm Authorization Error has occurred";
+      });
   }
 }

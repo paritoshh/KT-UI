@@ -53,25 +53,8 @@
                 </div>
                 <div class="form-group">
                   <label>Date of birth:</label>
-                  <div class="form-group form-inline">  
-                    <div class="input-group">  
-                      <input class="form-control" placeholder="yyyy-mm-dd"  
-                             name="dob" [(ngModel)]="profile.dob" ngbDatepicker #d="ngbDatepicker">  
-                      <div class="input-group-append">  
-                        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>  
-                      </div>  
-                    </div>  
-                  </div>  
-                  <!-- <input *ngIf ="profile"type="text" class="form-control" name=dob class="form-control" [(ngModel)]="profile.dob" > -->
+                  <ejs-datepicker name="dob" [(ngModel)]="profile.dob"></ejs-datepicker>
                 </div>
-                
-  
-
-   
-
-
-                
-                
                 <div class="form-group">
                   <label  >Skills:</label>
                   <input *ngIf ="profile"type="text" class="form-control" name=skills class="form-control" [(ngModel)]="profile.skills" >

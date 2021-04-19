@@ -41,6 +41,36 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+@syncfusion/ej2-angular-base
+SEE LICENSE IN license
+
+@syncfusion/ej2-angular-calendars
+SEE LICENSE IN license
+
+@syncfusion/ej2-base
+SEE LICENSE IN license
+
+@syncfusion/ej2-buttons
+SEE LICENSE IN license
+
+@syncfusion/ej2-calendars
+SEE LICENSE IN license
+
+@syncfusion/ej2-data
+SEE LICENSE IN license
+
+@syncfusion/ej2-inputs
+SEE LICENSE IN license
+
+@syncfusion/ej2-lists
+SEE LICENSE IN license
+
+@syncfusion/ej2-popups
+SEE LICENSE IN license
+
+@syncfusion/ej2-splitbuttons
+SEE LICENSE IN license
+
 amazon-cognito-identity-js
 SEE LICENSE IN LICENSE.txt
 

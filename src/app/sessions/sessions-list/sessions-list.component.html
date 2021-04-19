@@ -46,7 +46,7 @@
         </thead>
         <tbody>
             <tr [routerLink]="['/sessions/s', session.id]" *ngFor="let session of sessions;" style="cursor: pointer;">
-                <td>{{session.scheduledDate}}| json</td>
+                <td>{{session.scheduledDate}}</td>
                 <td>{{session.topic}}</td>
                 <td>{{session.description}}</td>
             </tr>

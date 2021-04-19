@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Session } from '../../shared/session.model';
@@ -13,10 +14,12 @@ export class SessionsListComponent implements OnInit {
   sessions: Session[];
   sessionType: string;
   requestedSessionType: string;
+  date: Date;
 
   
 
-  constructor(private sessionService: SessionsService, private route: ActivatedRoute) { }
+  constructor(private sessionService: SessionsService, private route: ActivatedRoute,
+    public datepipe: DatePipe) { }
 
 
    ngOnInit(): void {
@@ -43,6 +46,9 @@ export class SessionsListComponent implements OnInit {
            this.sessions = data.filter(s=>
             s.status.toLowerCase()===this.requestedSessionType
           );
+          this.sessions.forEach(session=>{
+            session.scheduledDate = this.datepipe.transform(session.scheduledDate, 'MMM d, y, h:mm a');
+          })
            this.sessionService.setSessions(data);
        }
      );
@@ -52,6 +58,9 @@ export class SessionsListComponent implements OnInit {
       this.sessions = this.sessions.filter(s=>
         s.status.toLowerCase()===this.requestedSessionType
       );
+      this.sessions.forEach(session=>{
+        session.scheduledDate = this.datepipe.transform(session.scheduledDate, 'MMM d, y, h:mm a');
+      })
     }
    
   }
