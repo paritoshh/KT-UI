@@ -68,6 +68,7 @@ export class SessionDetailsComponent implements OnInit {
       this.isHostingSession = this.session.presenters.includes(this.loggedInEmail);
       this.presenters = this.session.presenters.join(", ");
       this.tags = this.session.tags.join(", ");
+      this.fetchProfileDetails();
       this.isFeedbackSubmitted();
     }
 

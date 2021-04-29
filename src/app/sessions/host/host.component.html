@@ -34,25 +34,42 @@
       <form (ngSubmit)="createSession()" #f="ngForm">
         <div class="form-group">
           <label>Topic:</label>
-          <input type="text" class="form-control" name=topic class="form-control" [(ngModel)]="session.topic"
-            required="required">
+          <input type="text" class="form-control" name=topic #topic="ngModel" class="form-control"
+            [(ngModel)]="session.topic" required [class.success]="!topic.invalid">
+          <div *ngIf="topic.errors &&(topic.touched || topic.dirty)" class="text-error">
+            <small class="text-danger" *ngIf="topic.errors.required">Please provide topic</small>
+          </div>
         </div>
         <div class="form-group">
           <label>Description:</label>
-          <textarea type="text" cols="10" rows="5" class="form-control" name=description class="form-control"
-            [(ngModel)]="session.description" required></textarea>
+          <textarea type="text" cols="10" rows="5" class="form-control" name=description #description="ngModel"
+            class="form-control" [(ngModel)]="session.description" required [class.success]="!description.invalid">
+          <div *ngIf="description.errors &&(description.touched || description.dirty)" class="text-error">
+            <small class="text-danger" *ngIf="description.errors.required">Please provide description</small>
+          </div>
+        </textarea>
         </div>
         <div class="form-group">
           <label>Scheduled Date and time:</label>
           <ejs-datetimepicker id='datetimepicker' placeholder='Select a date' name="scheduledDate"
-          [(ngModel)]="session.scheduledDate" [min]='minDate' [max]='maxDate' format ='dd/MM/yyyy HH:mm'></ejs-datetimepicker>
+            #scheduledDate="ngModel" [(ngModel)]="session.scheduledDate" [strictMode]='true' [min]='minDate'
+            [max]='maxDate' format='dd/MM/yyyy HH:mm' required [class.success]="!scheduledDate.invalid">
+            <div *ngIf="scheduledDate.errors &&(scheduledDate.touched || scheduledDate.dirty)" class="text-error">
+              <small class="text-danger" *ngIf="scheduledDate.errors.required">Please provide scheduled date</small>
+            </div>
+          </ejs-datetimepicker>
         </div>
         <div class="form-group">
-          <label>Tags:</label>
-          <input type="email" class="form-control" name=tags class="form-control" [(ngModel)]="tags" required>
+          <label>Tags:<small>(You can give multile tags with comma separations.)</small></label>
+          <input type="text" class="form-control" name=tags #topicTags="ngModel" class="form-control" [(ngModel)]="tags"
+            required [class.success]="!topicTags.invalid">
+          <div *ngIf="topicTags.errors &&(topicTags.touched || topicTags.dirty)" class="text-error">
+            <small class="text-danger" *ngIf="topicTags.errors.required">At least one tag is required.</small>
+          </div>
         </div>
         <div class="form-group">
-          <label>Presenters:</label>
+          <label>Presenters: <small>(If you have multiple hosts, you can mention emails with comma
+              separations)</small></label>
           <input type="text" class="form-control" name=presenters class="form-control" [(ngModel)]="presenters">
         </div>
         <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Create</button>

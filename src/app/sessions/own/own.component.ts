@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProfileService } from 'src/app/profile/profile.service';
@@ -18,7 +19,8 @@ export class OwnComponent implements OnInit {
   registeredSessionsIds: string[];
 
   constructor(private sessionService: SessionsService, private route: ActivatedRoute,
-    private profileService: ProfileService, private auth: AuthorizationService) { }
+    private profileService: ProfileService, private auth: AuthorizationService,
+    private datepipe: DatePipe) { }
 
   ngOnInit(): void {
     this.loggedInEmail = this.auth.getAuthenticatedUser();
@@ -51,6 +53,9 @@ export class OwnComponent implements OnInit {
                 &&
                 this.registeredSessionsIds.includes(s.id)
               );
+              this.registeredSessions.forEach(rSession=>
+                rSession.scheduledDate = this.datepipe.transform(rSession.scheduledDate, 'MMM d, y, h:mm a')
+              )
             }
             
             this.hostedSessions = data.filter(s =>
@@ -58,6 +63,9 @@ export class OwnComponent implements OnInit {
               &&
               s.presenters.includes(this.loggedInEmail)
             );
+            this.hostedSessions.forEach(hSession=>{
+              hSession.scheduledDate = this.datepipe.transform(hSession.scheduledDate, 'MMM d, y, h:mm a');
+            });
             this.sessionService.setSessions(data);
           }
         );
@@ -70,12 +78,18 @@ export class OwnComponent implements OnInit {
           &&
           this.registeredSessionsIds.includes(s.id)
         );
+        this.registeredSessions.forEach(rSession=>
+          rSession.scheduledDate = this.datepipe.transform(rSession.scheduledDate, 'MMM d, y, h:mm a')
+        )
       }
       this.hostedSessions = this.sessions.filter(s =>
         s.status.toLowerCase() === 'scheduled'
         &&
         s.presenters.includes(this.loggedInEmail)
       );
+      this.hostedSessions.forEach(hSession=>{
+        hSession.scheduledDate = this.datepipe.transform(hSession.scheduledDate, 'MMM d, y, h:mm a');
+      });
     }
   }
 }

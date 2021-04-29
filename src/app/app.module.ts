@@ -23,7 +23,10 @@ import { DatePipe, HashLocationStrategy, LocationStrategy } from '@angular/commo
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackComponent } from './sessions/sessions-list/session-details/feedback/feedback.component';
 // Datepicker module
-import { DatePickerModule ,DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { DatePickerModule, DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { RouteMessageComponent } from './route-message/route-message.component';
+import { HttpErrorInterceptor } from './shared/http-error-interceptor';
+import { RouteMessageService } from './route-message.service';
 
 
 @NgModule({
@@ -38,26 +41,29 @@ import { DatePickerModule ,DateTimePickerModule } from '@syncfusion/ej2-angular-
     SessionsListComponent,
     HostComponent,
     OwnComponent,
-    FeedbackComponent
-    
+    FeedbackComponent,
+    RouteMessageComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    NgbModule,DateTimePickerModule,
+    NgbModule, DateTimePickerModule,
     DatePickerModule
   ],
   providers: [
-    {provide : LocationStrategy , useClass: HashLocationStrategy},
-    {provide: AuthorizationService},
-     {provide: SessionsService},
-     {provide: ProfileService},
-     {provide: ProfileComponent},
-     {provide: AuthGuard},
-     {provide: DatePipe},
-    {provide: HTTP_INTERCEPTORS, useClass: HttpIntercepterBasicAuthService, multi: true }],
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: AuthorizationService },
+    { provide: SessionsService },
+    { provide: ProfileService },
+    {provide: RouteMessageService},
+    { provide: ProfileComponent },
+    { provide: AuthGuard },
+    { provide: DatePipe },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpIntercepterBasicAuthService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
