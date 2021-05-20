@@ -1,8 +1,246 @@
-<h3>Home Page!</h3>
-<br/>
-<a routerLink="/profile">Update profile</a><br/>
-<a routerLink="/sessions/recent">Load recent sessions</a><br/>
-<a routerLink="/sessions/upcoming">Load upcoming sessions</a><br/>
-<a routerLink="/sessions/own">Your sessions</a><br/>
-<a routerLink="/sessions/host">Host a session</a><br/>
-<a routerLink="/login">Logout</a><br/>
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom border-secondary">
+  <div class="container">
+    <img style="max-width: 50px; border-radius: 50%;" src="../../assets/images/bulb.jpeg">
+    <a href="#" class="navbar-brand ml-3">Knowledge Sharing</a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a routerLink="/home" class="nav-link active">Home</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/sessions/host" class="nav-link">Host session</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/sessions/own" class="nav-link">Your sessions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="modal" data-target="#contactModal">Support</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="#share-head-section" class="nav-link pt-0 dropdown-toggle" data-toggle="dropdown"><img
+              style="max-width: 40px; border-radius: 100%;" src="../../assets/images/profile-logo.png"></a>
+          <div class="dropdown-menu">
+            <h4 class="dropdown-header"><strong>Paritosh Agarwal</strong></h4>
+            <div class="dropdown-divider"></div>
+            <a routerLink="/profile" class="dropdown-item">Update profile</a>
+            <div class="dropdown-divider"></div>
+            <a routerLink="/logout" class="dropdown-item text-danger">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ======= Hero Section ======= -->
+<section id="hero">
+  <div class="hero-container">
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+
+      <ol class="carousel-indicators" id="hero-carousel-indicators">
+        <li class="active" data-target="#heroCarousel" data-slide-to="0"></li>
+        <li data-target="#heroCarousel" data-slide-to="1"></li>
+        <li data-target="#heroCarousel" data-slide-to="2"></li>
+        <li data-target="#heroCarousel" data-slide-to="3"></li>
+      </ol>
+
+
+      <div class="carousel-inner" role="listbox">
+
+        <!-- Slide 1 -->
+        <div class="carousel-item active" style="background: url(../../assets/images/slide-1.jpg)">
+          <div class="carousel-container">
+            <div class="carousel-content">
+              <h2 class="animate__animated animate__fadeInDown">Upcoming <span>Sessions</span></h2>
+              <p class="animate__animated animate__fadeInUp">You can view the list of all upcoming sessions and
+                register for any session.
+                You can also unregister any session anytime.
+              </p>
+              <a routerLink="/sessions/upcoming" class="btn-get-started animate__animated animate__fadeInUp">Find
+                More</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="carousel-item" style="background: url(../../assets/images/slide-2.jpg)">
+          <div class="carousel-container">
+            <div class="carousel-content">
+              <h2 class="animate__animated fanimate__adeInDown">Host <span>a session</span></h2>
+              <p class="animate__animated animate__fadeInUp"><strong>Don’t be afraid to share what you know, because
+                  you know
+                  it better than anyone else!</strong>
+              <p>Once you create a session others can register for the same.</p>
+
+              <a routerLink="/sessions/host" class="btn-get-started animate__animated animate__fadeInUp">Find More</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-item" style="background: url(../../assets/images/slide-3.jpg)">
+          <div class="carousel-container">
+            <div class="carousel-content">
+              <h2 class="animate__animated animate__fadeInDown">Recent <span>sessions</span></h2>
+              <p class="animate__animated animate__fadeInUp">
+                <strong>Did you miss a session?</strong>
+              <p>Find details of each completed sessions.</p>
+
+              <a routerLink="/sessions/recent" class="btn-get-started animate__animated animate__fadeInUp">Find More</a>
+            </div>
+          </div>
+        </div>
+        <!-- Slide 4 -->
+        <div class="carousel-item" style="background: url(../../assets/images/slide-4.jpg)">
+          <div class="carousel-container">
+            <div class="carousel-content">
+              <h2 class="animate__animated animate__fadeInDown">Manage <span>your sessions</span></h2>
+              <p class="animate__animated animate__fadeInUp">
+                <strong>Your Sessions.</strong>
+              <p>You can find the list of your hosting and registered sessions here.</p>
+              <a routerLink="/sessions/own" class="btn-get-started animate__animated animate__fadeInUp">Find More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- CONTROLS -->
+      <!-- <a href="#heroCarousel" class="carousel-control-prev" data-slide="prev">
+          <span class="carousel-control-prev-icon" style="outline: black;"></span>
+        </a>
+
+        <a href="#heroCarousel" class="carousel-control-next" data-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </a> -->
+
+      <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon " aria-hidden="true"></span>
+        <!-- <span class="sr-only">Previous</span> -->
+      </a>
+
+      <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon icofont-rounded-right" aria-hidden="true"></span>
+        <!-- <span class="sr-only">Next</span> -->
+      </a>
+
+    </div>
+  </div>
+</section>
+<section id="featured" class="featured">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="icon-box">
+          <h3><a routerLink="/sessions/host">Host Session</a></h3>
+          <p>You can mention multiple hosts in the session.</p>
+        </div>
+      </div>
+      <div class=" col-lg-3 mt-4 mt-lg-0">
+        <div class="icon-box">
+          <h3><a routerLink="/sessions/own">Your Sessions</a></h3>
+          <p>Manage your hosting and scheduled sessions.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 mt-4 mt-lg-0">
+        <div class="icon-box">
+          <h3><a routerLink="/sessions/upcoming">Upcoming Sessions</a></h3>
+          <p>Attend any session of your interest.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 mt-4 mt-lg-0">
+        <div class="icon-box">
+          <h3><a routerLink="/sessions/recent">Recent Sessions</a></h3>
+          <p>Find the details of done sessions.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section><!-- End Featured Section -->
+
+<!--Footer-->
+<footer id="main-footer" class="mt-4 bg-light border-top border-secondary">
+  <div class="row align-items-center" style="min-height: 100px; text-align: center;">
+    <div class="col">
+      <h4>
+        <pre>Knowledge Sharing</pre>
+      </h4>
+    </div>
+    <div class="col">
+      <pre><p>Copyright &copy; <span id="year">2021</span></p></pre>
+    </div>
+    <div class="col">
+      <button class="btn btn-info" data-toggle="modal" data-target="#contactModal">Contact Us</button>
+    </div>
+  </div>
+</footer>
+
+
+<!-- CONTACT MODAL -->
+<div class="modal fade text-dark" id="contactModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Contact Us</h5>
+        <button class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea class="form-control"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-info btn-block">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Verify account modal-->
+<div class="modal fade text-dark" id="verifyAccountModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="container">
+          <h3 class="modal-title">Verify account</h3>
+
+          <span><small>Please check your email for the validation code and enter it here:</small></span>
+        </div>
+        <button class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="message">Verification Code</label>
+            <input type="text" class="form-control">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-success btn-block">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

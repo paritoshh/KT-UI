@@ -14,6 +14,9 @@ export class RegisterComponent implements OnInit {
   codeWasConfirmed: boolean = false;
   error: string = "";
   email : string;
+  isErrorInVerifyEmail: boolean = false;
+  verifyEmailErrorMessage: string;
+  emailVerificationMessage: boolean = false;
 
   constructor(private auth: AuthorizationService,
     private _router: Router,
@@ -30,9 +33,12 @@ export class RegisterComponent implements OnInit {
     this.auth.register(email, name, password).subscribe(
       (data) => {        
         this.confirmCode = true;
+        form.reset();
       },
       (err) => {
         console.log(err);
+        this.isErrorInVerifyEmail = true;
+        this.verifyEmailErrorMessage = err.message;
         this.error = "Registration Error has occurred";
       }
     );
@@ -44,13 +50,19 @@ export class RegisterComponent implements OnInit {
       (data) => {
         //this._router.navigateByUrl('/');
         this.codeWasConfirmed = true;
-        this.confirmCode = false;
-        alert('You must update your profile to start using this application.');
+        this.confirmCode = false;    
+        form.reset();
       },
       (err) => {
         console.log(err);
+        this.isErrorInVerifyEmail = true;
+        this.verifyEmailErrorMessage = err.message;
+        //when user will click on cross button of error message, verify account section will be opened.
+        this.confirmCode = true;
         this.error = "Confirm Authorization Error has occurred";
       });
   }
-
+  closeErrorMessage() {
+    this.isErrorInVerifyEmail = false;
+  }
 }

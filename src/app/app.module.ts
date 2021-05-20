@@ -15,7 +15,6 @@ import { HomeComponent } from './home/home.component';
 import { SessionsService } from './shared/sessions-service';
 import { SessionsListComponent } from './sessions/sessions-list/sessions-list.component';
 import { SessionDetailsComponent } from './sessions/sessions-list/session-details/session-details.component';
-import { AuthGuard } from './auth-guard.service';
 import { SessionsComponent } from './sessions/sessions.component';
 import { HostComponent } from './sessions/host/host.component';
 import { OwnComponent } from './sessions/own/own.component';
@@ -27,6 +26,7 @@ import { DatePickerModule, DateTimePickerModule } from '@syncfusion/ej2-angular-
 import { RouteMessageComponent } from './route-message/route-message.component';
 import { HttpErrorInterceptor } from './shared/http-error-interceptor';
 import { RouteMessageService } from './route-message.service';
+import { LogoutComponent } from './logout/logout.component';
 
 
 @NgModule({
@@ -42,7 +42,8 @@ import { RouteMessageService } from './route-message.service';
     HostComponent,
     OwnComponent,
     FeedbackComponent,
-    RouteMessageComponent
+    RouteMessageComponent,
+    LogoutComponent
 
   ],
   imports: [
@@ -60,10 +61,10 @@ import { RouteMessageService } from './route-message.service';
     { provide: ProfileService },
     {provide: RouteMessageService},
     { provide: ProfileComponent },
-    { provide: AuthGuard },
     { provide: DatePipe },
     { provide: HTTP_INTERCEPTORS, useClass: HttpIntercepterBasicAuthService, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }],
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

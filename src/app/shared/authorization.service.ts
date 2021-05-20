@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserPool, CognitoUserSession} from 'amazon-cognito-identity-js';
+import { AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserPool, CognitoUserSession } from 'amazon-cognito-identity-js';
 import { Observable } from 'rxjs';
 
 const poolData = {
@@ -24,8 +24,8 @@ export class AuthorizationService {
 
     const attributeList = [];
     const nameAttribute = {
-        Name: 'name',
-        Value: name
+      Name: 'name',
+      Value: name
     }
     attributeList.push(new CognitoUserAttribute(nameAttribute));
 
@@ -47,12 +47,12 @@ export class AuthorizationService {
 
   confirmAuthCode(code) {
     const user = {
-      Username : this.cognitoUser.username,
-      Pool : userPool
+      Username: this.cognitoUser.username,
+      Pool: userPool
     };
     return Observable.create(observer => {
       const cognitoUser = new CognitoUser(user);
-      cognitoUser.confirmRegistration(code, true, function(err, result) {
+      cognitoUser.confirmRegistration(code, true, function (err, result) {
         if (err) {
           console.log(err);
           observer.error(err);
@@ -66,12 +66,12 @@ export class AuthorizationService {
 
   confirmAuthCodeLater(code, username) {
     const user = {
-      Username : username,
-      Pool : userPool
+      Username: username,
+      Pool: userPool
     };
     return Observable.create(observer => {
       const cognitoUser = new CognitoUser(user);
-      cognitoUser.confirmRegistration(code, true, function(err, result) {
+      cognitoUser.confirmRegistration(code, true, function (err, result) {
         if (err) {
           console.log(err);
           observer.error(err);
@@ -113,7 +113,7 @@ export class AuthorizationService {
           console.log(result);
         }, onFailure(err) {
           console.log(err);
-          alert(err);
+          alert(err.message);
         }
       });
 
@@ -123,7 +123,7 @@ export class AuthorizationService {
 
   }
 
-  isLoggedIn() {    
+  isLoggedIn() {
     return userPool.getCurrentUser() != null;
   }
 
@@ -133,6 +133,10 @@ export class AuthorizationService {
 
   getAuthenticatedUserName() {
     return sessionStorage.getItem(NAME);
+  }
+  isUserLoggedIn() {
+    const user = sessionStorage.getItem(AUTHENTICATED_USER);
+    return !(user === null);
   }
 
   logOut() {
@@ -144,7 +148,7 @@ export class AuthorizationService {
     if (userPool && userPool.getCurrentUser())
       userPool.getCurrentUser().signOut();
   }
-    getAuthenticatedToken() {
+  getAuthenticatedToken() {
     if (this.getAuthenticatedUser()) {
       return sessionStorage.getItem(TOKEN);
     }

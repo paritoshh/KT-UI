@@ -24,10 +24,10 @@
         <div class="form-group">
           <label for="password">Password</label>
           <input type="password" name="password" id="password" #pwd="ngModel" ngModel class="form-control" required
-          pattern="^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$" [class.success]="!pwd.invalid">
+          pattern="^(?=.{8,}$).*$" [class.success]="!pwd.invalid">
           <div *ngIf="pwd.errors &&(pwd.touched || pwd.dirty)" class="text-error">
             <small class="text-danger" *ngIf="pwd.errors.required">Please set a password</small>
-            <small *ngIf="pwd.errors.pattern" class="text-danger">Password must contains min 8 chars including a combination of 1 Uppercase, 1 special char and 1 number </small>
+            <small *ngIf="pwd.errors.pattern" class="text-danger">Password must contains min 8 characters</small>
           </div>
         </div>
         <button type="submit" class="btn btn-primary">Register</button>        
@@ -35,10 +35,10 @@
     </div>
   </div>
   <br/>
-  <a routerLink="/login">Login</a><br/>
+  <button type="button" class="btn btn-danger" routerLink="/login">Cancel</button>
   <div *ngIf="confirmCode" class="row message-row">
     <h4>Please check your email for the validation code and enter it here:<br>
-      (In case you didn't get validation code, you can come back on login screen and verify your account anytime.)
+      <small>(In case you didn't get validation code, you can come back on login screen and verify your account anytime.)</small>
     </h4>
     <div class="col-lg-4">
       <form (ngSubmit)="validateAuthCode(codeform)" #codeform="ngForm">
@@ -50,8 +50,11 @@
       </form>
     </div>
   </div>
-  <div *ngIf="codeWasConfirmed" class="row message-row">
-    <h4>Verification Code was confirmed, Login and update your profile to start using this application. <a
-        routerLink="/login">login here.</a></h4>
+  <div *ngIf="codeWasConfirmed" class="alert alert-success">
+    <a routerLink="/login" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    Account verification success, you can <a routerLink="/login" class="alert-link">login</a> here.
   </div>
+  <p *ngIf="isErrorInVerifyEmail">
+    <ngb-alert type="danger" (closed)="closeErrorMessage()">{{verifyEmailErrorMessage}}</ngb-alert>
+  </p>
 </div>

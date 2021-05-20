@@ -1,77 +1,217 @@
- <!-- A grey horizontal navbar that becomes vertical on small screens -->
- <nav class="navbar navbar-expand-sm bg-light">
-
-  <!-- Links -->
-  <ul class="navbar-nav">
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/home">Home Page</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" style="color:brown;" routerLink="/profile"><b>Update profile</b></a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/sessions/recent">Load recent sessions</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/sessions/upcoming">Load upcoming sessions</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/sessions/own">Your sessions</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/sessions/host">Host a session</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/login">Logout</a>
-    </li>
-  </ul>
-
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom border-secondary">
+  <div class="container">
+    <img style="max-width: 50px; border-radius: 50%;" src="../../assets/images/bulb.jpeg">
+    <a href="#" class="navbar-brand ml-3">Knowledge Sharing</a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a routerLink="/home" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/sessions/host" class="nav-link">Host session</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/sessions/own" class="nav-link">Your sessions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="modal" data-target="#contactModal">Support</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="#share-head-section" class="nav-link pt-0 dropdown-toggle" data-toggle="dropdown"><img
+              style="max-width: 40px; border-radius: 100%;" src="../../assets/images/profile-logo.png"></a>
+          <div class="dropdown-menu">
+            <h4 class="dropdown-header"><strong>Paritosh Agarwal</strong></h4>
+            <div class="dropdown-divider"></div>
+            <a routerLink="/profile" class="dropdown-item">Update profile</a>
+            <div class="dropdown-divider"></div>
+            <a routerLink="/logout" class="dropdown-item text-danger">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
 </nav>
-<div class="container">
-    <h2>Update Profile</h2>
-    <div class="row">
-      <div class="col-lg-4">
-        
-          
 
-        <form (ngSubmit)="updateProfile()" #f="ngForm">
-            <div class="form-group">
-                <label>First Name:</label>
-                <input type="text" class="form-control" name=firstName class="form-control" #firstName="ngModel" [(ngModel)]="profile.firstName" required="required">
+<div class="container mt-5" style="max-width: 70%;">
+  <pre><h3 class="text-center">Edit Profile</h3></pre>
+  <form (ngSubmit)="updateProfile()" #f="ngForm">
+    <div class="form-row justify-content-between">
+      <div class="col-lg-5 col-sm-10">
+        <div class="row">
+          <label for="fname">First Name</label>
+        </div>
+        <div class="row">
+          <input type="text" class="form-control border-info" placeholder="First name" name=firstName
+            #firstName="ngModel" [(ngModel)]="profile.firstName" required="required">
+        </div>
+      </div>
+      <div class="col-lg-5 col-sm-10">
+        <div class="row"><label for="lname">Last Name</label></div>
+        <div class="row"><input type="text" class="form-control border-info" placeholder="Last name" name=lname
+            [(ngModel)]="profile.lastName"></div>
+      </div>
+    </div>
+    <div class="form-row mt-3">
+      <div class="col-sm-10 col-lg-12">
+        <div class="row"><label for="email">Email address</label></div>
+        <div class="row"><input class="form-control form-control border-info" type="email" id="email"
+            placeholder="Enter email" name=email [(ngModel)]="loggedInEmail" disabled required>
+        </div>
+      </div>
+
+    </div>
+    <div class="row form-row justify-content-between mt-3">
+      <div class="col-lg-5 col-sm-10">
+        <div class="row"><label for="fname">City</label></div>
+        <div class="row"><input type="text " class="form-control border-info" placeholder="City" name=location
+            [(ngModel)]="profile.location"></div>
+      </div>
+      <div class="col-lg-5 col-sm-10">
+        <div class="row"><label for="lnam">Country</label></div>
+        <div class="row"><input type="text" class="form-control border-info" placeholder="Country" name=location
+            [(ngModel)]="profile.location"></div>
+      </div>
+    </div>
+    <div class="row form-row justify-content-between mt-3">
+      <div class="col-lg-5 col-sm-10">
+        <div class="row"><label for="fname">Your Skills</label></div>
+        <div class="row"><input type="text" class="form-control border-info" placeholder="Angular, Bootstrap"
+            name=skills [(ngModel)]="profile.skills"></div>
+      </div>
+      <div class="col-lg-5 col-sm-10">
+        <div class="row"><label for="lname">Interested Skills</label></div>
+        <div class="row"><input type="text" class="form-control border-info" placeholder="AWS, Phython" name=iSkills
+            [(ngModel)]="profile.interestedSkills"></div>
+      </div>
+    </div>
+
+    <div class="form-row justify-content-between mt-3">
+      <div class="col-lg-5 col-sm-10">
+        <div class="row"><label for="fname">DOB</label></div>
+        <div class="row"><input type="text" class="form-control border-info" placeholder="Angular, Bootstrap"></div>
+      </div>
+
+      <div class="col-lg-5 col-sm-10 ">
+        <div class="row">
+          <label for="fname">Experience</label>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="input-group">
+              <input type="text" class="form-control border-info" placeholder="" name=experience
+                [(ngModel)]="profile.experience">
+              <div class="input-group-append">
+                <span class="input-group-text">Years</span>
               </div>
-              <div class="form-group">
-                  <label  >Last Name:</label>
-                  <input type="text" class="form-control" name=lname class="form-control" [(ngModel)]="profile.lastName">
-                </div>
-                <div class="form-group">
-                  <label  >Email:</label>
-                  <input type="email" class="form-control" name=email class="form-control" [(ngModel)]="loggedInEmail" disabled required>
-                </div>
-                <div class="form-group">
-                  <label>Location:</label>
-                  <input *ngIf ="profile"type="text" class="form-control" name=location class="form-control" [(ngModel)]="profile.location" >
-                </div>
-                <div class="form-group">
-                  <label>Date of birth:</label>
-                  <ejs-datepicker name="dob" [(ngModel)]="profile.dob"></ejs-datepicker>
-                </div>
-                <div class="form-group">
-                  <label  >Skills:</label>
-                  <input *ngIf ="profile"type="text" class="form-control" name=skills class="form-control" [(ngModel)]="profile.skills" >
-                </div>
-                <div class="form-group">
-                  <label  >Interested skills:</label>
-                  <input *ngIf ="profile"type="text" class="form-control" name=iSkills class="form-control" [(ngModel)]="profile.interestedSkills" >
-                </div>
-                <div class="form-group">
-                  <label>Experience(in years):</label>
-                  <input *ngIf ="profile" type="text" class="form-control" name=experience class="form-control" [(ngModel)]="profile.experience" >
-                </div>
-          <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Update</button>
-          <button type="button" class="btn btn-danger" routerLink="/home">Cancel</button>
+            </div>
+          </div>
+          <div class="col">
+            <div class="input-group">
+              <input type="text" class="form-control border-info" placeholder="" name=experience
+                [(ngModel)]="profile.experience">
+              <div class="input-group-append">
+                <span class="input-group-text">Months</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-5 justify-content-around">
+      <div class="col">
+        <button class="btn btn-success btn-block" type="submit" [disabled]="!f.valid">Submit</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-warning btn-block" type="button" routerLink="/home">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<!--Footer-->
+<footer id="main-footer" class="bg-light border-top border-secondary mt-5">
+  <div class="row align-items-center" style="min-height: 100px; text-align: center;">
+    <div class="col">
+      <h4>
+        <pre>Knowledge Sharing</pre>
+      </h4>
+    </div>
+    <div class="col">
+      <pre><p>Copyright &copy; <span id="year">2021</span></p></pre>
+    </div>
+    <div class="col">
+      <button class="btn btn-info" data-toggle="modal" data-target="#contactModal">Contact Us</button>
+    </div>
+  </div>
+</footer>
+
+
+<!-- CONTACT MODAL -->
+<div class="modal fade text-dark" id="contactModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Contact Us</h5>
+        <button class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea class="form-control"></textarea>
+          </div>
         </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-info btn-block">Submit</button>
       </div>
     </div>
   </div>
+</div>
+<!--Verify account modal-->
+<div class="modal fade text-dark" id="verifyAccountModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="container">
+          <h3 class="modal-title">Verify account</h3>
 
-
+          <span><small>Please check your email for the validation code and enter it here:</small></span>
+        </div>
+        <button class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="message">Verification Code</label>
+            <input type="text" class="form-control">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-success btn-block">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

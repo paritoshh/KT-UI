@@ -1,0 +1,10 @@
+.fas{
+  color: #008ed6;
+  background: rgb(231, 231, 187);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.form-control.border-primary:hover{
+  border-width: 2px;
+}

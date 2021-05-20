@@ -7,7 +7,6 @@ import { RegisterSessionProfile } from 'src/app/profile/register-session-profile
 import { AuthorizationService } from 'src/app/shared/authorization.service';
 import { Session } from 'src/app/shared/session.model';
 import { SessionsService } from 'src/app/shared/sessions-service';
-import { FeedbackComponent } from './feedback/feedback.component';
 import { Feedback } from './feedback/feedback.model';
 
 @Component({
@@ -26,7 +25,7 @@ export class SessionDetailsComponent implements OnInit {
 
   id: string;
   presenters: string;
-  tags: string;
+  tags: string[];
   isRegistered: boolean;
   profile: Profile;
   loggedInEmail: string;
@@ -56,7 +55,7 @@ export class SessionDetailsComponent implements OnInit {
             this.session = data;
             this.isHostingSession = data.presenters.includes(this.loggedInEmail);
             this.presenters = this.session.presenters.join(", ");
-            this.tags = this.session.tags.join(", ");
+            this.tags = this.session.tags;
             this.fetchProfileDetails();
             this.isFeedbackSubmitted();
             this.session.scheduledDate = this.datepipe.transform(this.session.scheduledDate, 'MMM d, y, h:mm a');
@@ -67,7 +66,7 @@ export class SessionDetailsComponent implements OnInit {
     else {
       this.isHostingSession = this.session.presenters.includes(this.loggedInEmail);
       this.presenters = this.session.presenters.join(", ");
-      this.tags = this.session.tags.join(", ");
+      this.tags = this.session.tags;
       this.fetchProfileDetails();
       this.isFeedbackSubmitted();
     }
@@ -92,20 +91,20 @@ export class SessionDetailsComponent implements OnInit {
 
   //finding if user has submitted the feedback.
   isFeedbackSubmitted() {
-    if(this.session.feedbacks!=null && this.session.feedbacks!=undefined){
+    if (this.session.feedbacks != null && this.session.feedbacks != undefined) {
       this.session.feedbacks.forEach(f => {
         if (f.provider.toLowerCase() === this.loggedInEmail.toLowerCase()) {
           this.isFeedBackSubmittedByThisUser = true;
           this.feedbackToPassInFeedbackComponent = f;
           return;
         }
-  
+
       });
 
     }
-    
+
   }
-  feedbackSubmittedConfirmationUpdate(feedBackSubmitionUpdate: boolean){
+  feedbackSubmittedConfirmationUpdate(feedBackSubmitionUpdate: boolean) {
     this.isFeedBackSubmittedByThisUser = feedBackSubmitionUpdate;
   }
 

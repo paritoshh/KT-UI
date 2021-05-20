@@ -1,53 +1,242 @@
-<app-route-message></app-route-message>
-<div *ngIf="!confirmCode && !codeWasConfirmed" class="container">
-  <h2>Login Page</h2>
-    <div class="row">
-      <div class="col-lg-4">
-        <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-  
+<nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom border-secondary">
+  <img style="max-width: 70px; border-radius: 50%;" src="../../assets/images/kt-logo.png">
+  <a href="#" class="navbar-brand ml-3">Knowledge Sharing</a>
+  <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a href="#home" class="nav-link" data-toggle="modal" data-target="#contactModal">Support</a>
+      </li>
+      <li class="nav-item">
+        <a href="#explore-head-section" class="nav-link">Explore</a>
+      </li>
+      <li class="nav-item">
+        <a href="#create-head-section" class="nav-link">Create</a>
+      </li>
+      <li class="nav-item">
+        <a href="#share-head-section" class="nav-link">Share</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<div class="mt-5" style="background: url(../../assets/images/Know-sharing.png); background-size: cover;">
+  <div class="row" style="
+  background-color: #0a0c0ab6;
+  opacity: 0.9;">
+    <div class="col-lg-7 d-none d-lg-block pt-3 text-center" style="color: #ffffff;">
+      <h4 class="display-6">Platform to share and gain Knowledge.
+      </h4>
+      <div class="d-flex">
+        <div class="p-4 align-self-start">
+          <i class="fas fa-check fa-1x"></i>
+        </div>
+        <div class="p-4 align-self-end">
+          Get list of all upcoming sessions.
+        </div>
+      </div>
+      <div class="d-flex">
+        <div class="p-4 align-self-start">
+          <i class="fas fa-check fa-1x"></i>
+        </div>
+        <div class="p-4 align-self-end">
+          Enroll any session.
+        </div>
+      </div>
+      <div class="d-flex">
+        <div class="p-4 align-self-start">
+          <i class="fas fa-check fa-1x"></i>
+        </div>
+        <div class="p-4 align-self-end">
+          Recodings of any missed sessions.
+        </div>
+      </div>
+      <div class="d-flex">
+        <div class="p-4 align-self-start">
+          <i class="fas fa-check fa-1x"></i>
+        </div>
+        <div class="p-4 align-self-end">
+          Host a session.
+        </div>
+      </div>
+      <div class="d-flex">
+        <div class="p-4 align-self-start">
+          <i class="fas fa-check fa-1x"></i>
+        </div>
+        <div class="p-4 align-self-end">
+          Request for any session.
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-5 mt-2">
+      <div class="card card-form text-center">
+        <!--Register section-->
+        <div *ngIf="!isLoginFormRequested" class="card-body">
+          <pre><h4>Sign Up</h4></pre>
+          <pre>Fill up the form to register.</pre>
+          <form (ngSubmit)="register(regform)" #regform="ngForm">
+            <div class="form-group">
+              <input type="text" class="form-control border-primary" placeholder="Name" name="name" #uname="ngModel"
+                ngModel placeholder="Name" required [class.success]="!uname.invalid">
+              <div *ngIf="uname.errors &&(uname.touched || uname.dirty)" class="formErrorMessage">
+                <small *ngIf="uname.errors.required" class="text-danger">Please provide name</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="email" class="form-control border-primary" placeholder="Email" name="email" #email="ngModel"
+                ngModel placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                [class.success]="!email.invalid">
+              <div *ngIf="email.errors &&(email.touched || email.dirty)" class="formErrorMessage">
+                <small *ngIf="email.errors.required" class="text-danger">Please provide email</small>
+                <small *ngIf="email.errors.pattern" class="text-danger">Email format is invalid</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control border-primary" placeholder=" Password" name="password"
+                id="password" #pwd="ngModel" ngModel placeholder="Password" required pattern="^(?=.{8,}$).*$"
+                [class.success]="!pwd.invalid">
+              <div *ngIf="pwd.errors &&(pwd.touched || pwd.dirty)" class="formErrorMessage">
+                <small *ngIf="pwd.errors.required" class="text-danger">Please set a password</small>
+                <small *ngIf="pwd.errors.pattern" class="text-danger">Password must contains min 8 characters</small>
+              </div>
+            </div>
+            <input type="submit" value="Create account" class="btn btn-success btn-block mb-1 border border-dark"
+              [disabled]="!regform.valid">
+            <div style="font-size: 16px; color: rgba(0, 0, 0, .6);">
+              <pre>Already have an account? <a class="text-primary" (click)="loginAndRegisterFormToggle()">Login</a></pre>
+            </div>
+            <div style="font-size: 16px; color: rgba(0, 0, 0, .6);">
+              <pre>Already have verification code? <a class="text-primary" data-toggle="modal" data-target="#verifyAccountModal">Verify</a></pre>
+            </div>
+          </form>
+        </div>
+        <!--Register ends-->
+        <!--Login starts-->
+        <div *ngIf="isLoginFormRequested" class="card-body">
+          <pre><h4>Login</h4></pre>
+          <pre>Your account must be verified to login.</pre>
+          <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+            <div class="form-group">
+              <input type="email" name="email" ngModel class="form-control form-control" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <input type="password" name="password" ngModel class="form-control form-control" placeholder="Password">
+            </div>
+            <input type="submit" value="Login" class="btn btn-success btn-block mb-1">
+            <div style="font-size: 16px; color: rgba(0, 0, 0, .6);">
+              <pre>Don't have an account? <a class="text-primary" (click)="loginAndRegisterFormToggle()">Register</a></pre>
+            </div>
+            <div style="font-size: 16px; color: rgba(0, 0, 0, .6);">
+              <pre>Already have verification code? <a class="text-primary" data-toggle="modal" data-target="#verifyAccountModal">Verify</a></pre>
+            </div>
+          </form>
+        </div>
+        <!--Login section ends-->
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="confirmCode" class="container mt-4">
+  <div class="row">
+    <h5>Please check your email for the validation code and enter it here:</h5>
+    <p>(In case you get validation code later, you can come back on login screen and verify your account anytime.)
+    </p>
+  </div>
+  <form (ngSubmit)="validateAuthCode(codeform)" #codeform="ngForm">
+    <div class="row justify-content-around">
+      <div class="col-lg-8 col-sm-12">
+        <div class="form-group">
+          <input type="text" name="code" id="code" ngModel class="form-control border-primary"
+            placeholder="verification code" required>
+        </div>
+      </div>
+      <div class="col-lg-4 col-sm-12 text-center">
+        <button type="submit" class="btn btn-outline-primary">Validate Code</button>
+      </div>
+    </div>
+  </form>
+</div>
+<!--Footer-->
+<footer id="main-footer" class="bg-light border-top border-secondary mt-4">
+  <div class="row align-items-center" style="min-height: 100px; text-align: center;">
+    <div class="col">
+      <h4>
+        <pre>Knowledge Sharing</pre>
+      </h4>
+    </div>
+    <div class="col">
+      <pre><p>Copyright &copy; <span id="year">2021</span></p></pre>
+    </div>
+    <div class="col">
+      <button class="btn btn-secondary" data-toggle="modal" data-target="#contactModal">Contact Us</button>
+    </div>
+  </div>
+</footer>
+
+<!-- CONTACT MODAL -->
+<div class="modal fade text-dark" id="contactModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Contact Us</h5>
+        <button class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control">
+          </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" name="email" id="email" ngModel class="form-control" required>
+            <input type="email" class="form-control">
           </div>
-  
           <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" ngModel class="form-control" required>
+            <label for="message">Message</label>
+            <textarea class="form-control"></textarea>
           </div>
-  
-          <button type="submit" class="btn btn-primary">Login</button>
         </form>
       </div>
-    </div>
-    <br />
-    <div class="row message-row" *ngIf="emailVerificationMessage">
-      <div class="col-lg-8">
-        <div class="alert alert-danger">
-          Could not log you in.  Please verify your email and then attempt to sign in.
-        </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-info btn-block">Submit</button>
       </div>
     </div>
   </div>
-  New user?  <a routerLink="/register">Register</a>
-<br>
-<br>
-  <button style="cursor:pointer"(click)="activateAccount()">Verify account</button>
-  <div *ngIf="confirmCode" class="row message-row">
-    <p>Please check your email for the validation code and enter it here:</p>
-    <div class="col-lg-4">
-      <form (ngSubmit)="validateAuthCode(codeform)" #codeform="ngForm">
-        <div class="form-group">
-          <label for="code">Email</label>
-          <input type="text" name="email" id="email" ngModel class="form-control" required>
+</div>
+<!--Verify account modal-->
+<div class="modal fade text-dark" id="verifyAccountModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="container">
+          <h3 class="modal-title">Verify account</h3>
+
+          <span><small>Please check your email for the validation code and enter it here:</small></span>
         </div>
-        <div class="form-group">
-          <label for="code">Code</label>
-          <input type="text" name="code" id="code" ngModel class="form-control" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Validate Code</button>
-      </form>
+        <button class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="message">Verification Code</label>
+            <input type="text" class="form-control">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-success btn-block">Submit</button>
+      </div>
     </div>
   </div>
-  <div *ngIf="codeWasConfirmed" class="row message-row">
-    <p>Verification Code was confirmed, Login and update your profile to start using this application. <a routerLink="/login">login here.</a></p>
-  </div>
+</div>

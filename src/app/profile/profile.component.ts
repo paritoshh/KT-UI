@@ -13,40 +13,37 @@ import { Router } from '@angular/router';
 export class ProfileComponent implements OnInit {
 
   title = 'appBootstrap';
-  
-  model;
 
   profile: Profile;
   loggedInEmail: string;
-  
+
 
   constructor(private profileService: ProfileService, private auth: AuthorizationService,
     private _router: Router) { }
 
   ngOnInit(): void {
 
-        //fetching existing profile details
-        this.loggedInEmail = this.auth.getAuthenticatedUser();
-       // this.profile.email = this.loggedInEmail;
-        console.log("User details loggedInEmail:: "+this.loggedInEmail);
-        this.profileService.retrieveProfile(this.loggedInEmail)
-        .subscribe(
-          data=>{
-            console.log("data:: "+data);
-              this.profile = data;
-          }
-        );
+    //fetching existing profile details
+    this.loggedInEmail = this.auth.getAuthenticatedUser();
+    console.log("User details loggedInEmail:: " + this.loggedInEmail);
+    this.profileService.retrieveProfile(this.loggedInEmail)
+      .subscribe(
+        data => {
+          console.log("data:: " + data);
+          this.profile = data;
+        }
+      );
   }
 
 
-  updateProfile(){
+  updateProfile() {
     this.profileService.updateProfile(this.profile, this.loggedInEmail)
-    .subscribe(
-      data => {
-        console.log(data);
-        this._router.navigate(['/home']);
-      }
-    );
+      .subscribe(
+        data => {
+          console.log(data);
+          this._router.navigate(['/home']);
+        }
+      );
   }
 
 }

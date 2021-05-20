@@ -1,42 +1,58 @@
-<!-- A grey horizontal navbar that becomes vertical on small screens -->
-<nav class="navbar navbar-expand-sm bg-light">
-
-    <!-- Links -->
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/home">Home Page</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/profile">Update profile</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/sessions/recent">Load recent sessions</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/sessions/upcoming">Load upcoming sessions</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/sessions/own">Your sessions</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/sessions/host">Host a session</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/login">Logout</a>
-        </li>
-    </ul>
-
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom border-secondary">
+    <div class="container">
+        <img style="max-width: 50px; border-radius: 50%;" src="../../assets/images/bulb.jpeg">
+        <a href="#" class="navbar-brand ml-3">Knowledge Sharing</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a routerLink="/home" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/sessions/host" class="nav-link">Host session</a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/sessions/own" class="nav-link">Your sessions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#contactModal">Support</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#share-head-section" class="nav-link pt-0 dropdown-toggle" data-toggle="dropdown"><img
+                            style="max-width: 40px; border-radius: 100%;"
+                            src="../../assets/images/profile-logo.png"></a>
+                    <div class="dropdown-menu">
+                        <h4 class="dropdown-header"><strong>Paritosh Agarwal</strong></h4>
+                        <div class="dropdown-divider"></div>
+                        <a routerLink="/profile" class="dropdown-item">Update profile</a>
+                        <div class="dropdown-divider"></div>
+                        <a routerLink="/logout" class="dropdown-item text-danger">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
-<div class="container">
-    <h3 *ngIf="requestedSessionType.toLowerCase()=='scheduled' else recent">Upcoming sessions</h3>
+
+<!--Main page-->
+<div class="container mt-5">
+    <pre
+        *ngIf="requestedSessionType.toLowerCase()=='scheduled' else recent"><h3 class="text-center">Upcoming sessions</h3></pre>
     <ng-template #recent>
-        <h3>Recent sessions</h3>
+        <pre><h3 class="text-center">Recent sessions</h3></pre>
     </ng-template>
-    <p *ngIf="requestedSessionType.toLowerCase()=='scheduled' else provideFeedback">You can register for any session, click on session to check details:</p>
+    <p *ngIf="requestedSessionType.toLowerCase()=='scheduled' else provideFeedback" class="text-center">You can register
+        for any session,
+        click on session to check details.</p>
     <ng-template #provideFeedback>
-        <p>You can provide feedbacks on the completed session.</p>
+        <p class="text-center">You can provide feedbacks on the completed session.</p>
     </ng-template>
-    <table class="table table-hover">
+
+
+    <!-- List of sessions -->
+    <table class="mt-4 table table-hover table-striped">
         <thead>
             <tr>
                 <th>Scheduled date</th>
@@ -52,8 +68,100 @@
             </tr>
         </tbody>
     </table>
+    <div class="row">
+        <div class="col text-center">
+            <button class="btn btn-warning" style="width: 22%;" type="button" routerLink="/home">Back</button>
+        </div>
+
+    </div>
+
 
     <div class="col-xs-12 col-sm-4">
         <router-outlet></router-outlet>
+    </div>
+
+</div>
+
+
+
+<!--Footer-->
+<footer id="main-footer" class="bg-light border-top border-secondary mt-5">
+    <div class="row align-items-center" style="min-height: 100px; text-align: center;">
+        <div class="col">
+            <h4>
+                <pre>Knowledge Sharing</pre>
+            </h4>
+        </div>
+        <div class="col">
+            <pre><p>Copyright &copy; <span id="year">2021</span></p></pre>
+        </div>
+        <div class="col">
+            <button class="btn btn-info" data-toggle="modal" data-target="#contactModal">Contact Us</button>
+        </div>
+    </div>
+</footer>
+
+<!-- CONTACT MODAL -->
+<div class="modal fade text-dark" id="contactModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Contact Us</h5>
+                <button class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea class="form-control"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-info btn-block">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Verify account modal-->
+<div class="modal fade text-dark" id="verifyAccountModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="container">
+                    <h3 class="modal-title">Verify account</h3>
+
+                    <span><small>Please check your email for the validation code and enter it here:</small></span>
+                </div>
+                <button class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Verification Code</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-success btn-block">Submit</button>
+            </div>
+        </div>
     </div>
 </div>

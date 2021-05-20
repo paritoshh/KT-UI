@@ -23,7 +23,7 @@ export class HostComponent implements OnInit {
   public maxDate: Date = new Date();
 
   public dateValue: Date = new Date();
-  
+
 
   constructor(private auth: AuthorizationService,
     private sessionService: SessionsService,
@@ -32,7 +32,7 @@ export class HostComponent implements OnInit {
 
   ngOnInit(): void {
     //You can host upto 6 months in advance.
-    this.maxDate.setMonth(this.maxDate.getMonth()+6);
+    this.maxDate.setMonth(this.maxDate.getMonth() + 6);
 
     this.loggedInEmail = this.auth.getAuthenticatedUser();
     this.id = this.route.snapshot.params['id'];
@@ -81,8 +81,8 @@ export class HostComponent implements OnInit {
   createSession() {
     var presentersArray = this.presenters.split(',');
     this.session.presenters = presentersArray;
-    var tagsArray = this.tags.split(',');
-    this.session.tags = tagsArray;
+    var tagsArray = this.tags;
+    this.session.tags = [tagsArray];
     //to update the cache if it was null.
     this.populateExistingSessions();
     this.sessionService.createSession(this.session)

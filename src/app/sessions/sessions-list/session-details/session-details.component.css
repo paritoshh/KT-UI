@@ -1,0 +1,26 @@
+/* body {
+  background: #333;
+  color: #fff;
+} */
+
+.navbar {
+  border-bottom: #008ed6 3px solid;
+  opacity: 0.8;
+}
+#topic {
+  background: url(../../../../assets/images/session-details1.jpeg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  height: 400px;
+
+}
+
+#presenter::after {
+  content: " ";
+  background-color: #159749!important;
+  margin: 25px 0 25px;
+  height: 2px;
+  width: 120px;
+  display: block;
+}
