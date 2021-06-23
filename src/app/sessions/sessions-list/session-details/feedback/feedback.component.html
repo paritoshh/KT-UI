@@ -1,29 +1,22 @@
 <div class="row">
   <div class="col-lg-4 col-sm-12">
-    <h6>{{isFeedBackSubmittedByThisUser ? 'Feedback provided' : 'Write Feedback'}}</h6>
+    <h6>{{isFeedBackSubmittedByThisUser ? 'Feedback provided' : 'Please provide Feedback'}}</h6>
     <form (ngSubmit)="submitFeedback()" #feedbackForm="ngForm">
-      <ngb-rating [max]="5" [(rate)]="rating" [readonly]="false"></ngb-rating>
-      <p>Rate: <strong>{{rating}}</strong></p>
-
-
-
+      <ngb-rating [max]="5" [(rate)]="rating" [readonly]=isFeedBackSubmittedByThisUser></ngb-rating>
+      <p><strong>{{rating}}</strong> Star</p>
+      <button *ngIf="!isFeedBackSubmittedByThisUser" type="submit" class="btn btn-success btn-block"
+        [disabled]="feedbackToPassInFeedbackComponent.feedback==null">Submit</button>
     </form>
   </div>
   <div class="col-lg-8 col-sm-12">
     <div class="form-group">
       <label>Feedback:</label>
       <textarea type="text" cols="10" rows="5" class="form-control" name=feedback class="form-control"
-        [(ngModel)]="feedbackToPassInFeedbackComponent.feedback" required
+        [(ngModel)]="feedbackToPassInFeedbackComponent.feedback" required #content="ngModel"
         [disabled]="isFeedBackSubmittedByThisUser"></textarea>
+      <div *ngIf="content.errors &&(content.touched || content.dirty)" class="text-error">
+        <small class="text-danger" *ngIf="content.errors.required">Please write feedback.</small>
+      </div>
     </div>
   </div>
-
-
-</div>
-<div class="row mt-3 justify-content-between">
-  <div class="col">
-    <button *ngIf="!isFeedBackSubmittedByThisUser" type="submit" class="btn btn-primary"
-      [disabled]="feedbackToPassInFeedbackComponent.feedback==null">Submit</button>
-  </div>
-  <!-- <div class="col"> <button type="button" class="btn btn-danger" routerLink="/home">Close</button></div> -->
 </div>

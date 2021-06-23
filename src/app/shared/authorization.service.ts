@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserPool, CognitoUserSession } from 'amazon-cognito-identity-js';
 import { Observable } from 'rxjs';
+import { ProfileService } from '../profile/profile.service';
 
 const poolData = {
   UserPoolId: 'ap-south-1_G4GJ5YWee', // Your user pool id here

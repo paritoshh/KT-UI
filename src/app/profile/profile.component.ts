@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthorizationService } from '../shared/authorization.service';
 import { Profile } from './profile.model';
 import { ProfileService } from './profile.service';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,6 +15,10 @@ export class ProfileComponent implements OnInit {
 
   profile: Profile;
   loggedInEmail: string;
+  yearsOfExperience: string;
+  monthsOfExperience: string;
+  isProfileUpdateStatus: boolean;
+  profileUpdateStatusMessage: string;
 
 
   constructor(private profileService: ProfileService, private auth: AuthorizationService,
@@ -31,17 +34,23 @@ export class ProfileComponent implements OnInit {
         data => {
           console.log("data:: " + data);
           this.profile = data;
+
+          var exp = this.profile.experience.toString().split(".", 2);
+          this.yearsOfExperience = exp[0];
+          this.monthsOfExperience = exp[1];
         }
       );
   }
 
 
   updateProfile() {
+    this.profile.experience = +(this.yearsOfExperience + "." + this.monthsOfExperience);
     this.profileService.updateProfile(this.profile, this.loggedInEmail)
       .subscribe(
         data => {
-          console.log(data);
-          this._router.navigate(['/home']);
+          this.isProfileUpdateStatus = true;
+          this.profileUpdateStatusMessage = "Profile updated successfully.";
+
         }
       );
   }

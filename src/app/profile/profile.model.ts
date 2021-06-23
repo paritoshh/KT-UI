@@ -4,6 +4,7 @@ export class Profile {
         public firstName: string,
         public lastName: string,
         public location: string,
+        public country: string,
         public dob: string,
         public learningPoints: number,
         public skills: string[],

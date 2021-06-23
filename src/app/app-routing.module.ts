@@ -14,21 +14,23 @@ import { SessionsComponent } from './sessions/sessions.component';
 
 const routes: Routes = [
 
- {path: '', component: LoginComponent},
- {path: 'home', component: HomeComponent},
- {path: 'register', component: RegisterComponent},
- { path: 'profile', component: ProfileComponent, canActivate: [RouteGuardService]},
- { path: 'login', component: LoginComponent},
- { path: 'logout', component: LogoutComponent, canActivate: [RouteGuardService]},
- { path: 'sessions',
-   canActivate: [RouteGuardService], 
-   component: SessionsComponent, children:[
-    {path: 'host', component: HostComponent},
-    {path: 'own', component: OwnComponent},
-    {path: ':sessionType', component: SessionsListComponent},
-    {path: 's/:id', component: SessionDetailsComponent},
-    // {path: 's/:id/feedback', component: Fee}
- ]},  
+  { path: '', component: LoginComponent },
+  { path: 'home', component: HomeComponent, canActivate: [RouteGuardService] },
+  { path: 'register', component: RegisterComponent },
+  { path: 'profile', component: ProfileComponent, canActivate: [RouteGuardService] },
+  { path: 'login', component: LoginComponent },
+  { path: 'logout', component: LogoutComponent, canActivate: [RouteGuardService] },
+  {
+    path: 'sessions',
+    canActivate: [RouteGuardService],
+    component: SessionsComponent, children: [
+      { path: 'host', component: HostComponent },
+      { path: 'own', component: OwnComponent },
+      { path: ':sessionType', component: SessionsListComponent },
+      { path: 's/:id', component: SessionDetailsComponent },
+      // {path: 's/:id/feedback', component: Fee}
+    ]
+  },
 ];
 
 @NgModule({

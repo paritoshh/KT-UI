@@ -30,13 +30,13 @@ export class SessionsService {
     }
 
     fetchSessionDetailsById(id: string) {
-        if(this.sessionsFromDB != null && this.sessionsFromDB != undefined){
-            for (var session of this.sessionsFromDB) {
-                if (session.id == id) {
-                    return session;
-                }
-            }
-        }        
+        // if (this.sessionsFromDB != null && this.sessionsFromDB != undefined) {
+        //     for (var session of this.sessionsFromDB) {
+        //         if (session.id == id) {
+        //             return session;
+        //         }
+        //     }
+        // }
         return null;
     }
 
@@ -45,21 +45,37 @@ export class SessionsService {
             .get<Session>(`${API_URL}/session/${sessionId}`);
     }
 
-    createSession(session: Session){
+    createSession(session: Session) {
         return this.http
             .post<Session>(`${API_URL}/session`,
-            session);
+                session);
 
     }
 
-    updateFeedback(sessionId: string, feedback: Feedback, email: string){
-         var requestBody = {
-             email: email,
-             feedback: feedback
-         };
+    updateFeedback(sessionId: string, feedback: Feedback, email: string) {
+        var requestBody = {
+            email: email,
+            feedback: feedback
+        };
 
         return this.http
             .put(`${API_URL}/session/${sessionId}/feedback`,
-            requestBody);
+                requestBody);
+    }
+
+    cancelHostedSession(sessionId: string, email: string, scheduledDate: string, topic: string, description: string, presenters: string[],
+        status: string) {
+        var requestBody = {
+            email: email,
+            scheduledDate: scheduledDate,
+            topic: topic,
+            description: description,
+            presenters: presenters,
+            status: status
+        };
+
+        return this.http
+            .put(`${API_URL}/session/${sessionId}`,
+                requestBody);
     }
 }

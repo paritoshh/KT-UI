@@ -7,6 +7,8 @@ export class Session {
         public id: string,
         public presenters: string[],
         public scheduledDate: string,
+        public fromTime: string,
+        public toTime: string,
         public status: string,
         public submittedAt: string,
         public tags: string[],

@@ -44,6 +44,7 @@ export class HomeComponent implements OnInit {
           if (this.profile.email == "") {
             this.updateProfile();
           }
+          this.profileService.setProfile(data);
         }
       );
   }

@@ -1,41 +1,21 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom border-secondary">
-  <div class="container">
-    <img style="max-width: 50px; border-radius: 50%;" src="../../assets/images/bulb.jpeg">
-    <a href="#" class="navbar-brand ml-3">Knowledge Sharing</a>
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a routerLink="/home" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/sessions/host" class="nav-link">Host session</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/sessions/own" class="nav-link">Your sessions</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="modal" data-target="#contactModal">Support</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a href="#share-head-section" class="nav-link pt-0 dropdown-toggle" data-toggle="dropdown"><img
-              style="max-width: 40px; border-radius: 100%;" src="../../assets/images/profile-logo.png"></a>
-          <div class="dropdown-menu">
-            <h4 class="dropdown-header"><strong>Paritosh Agarwal</strong></h4>
-            <div class="dropdown-divider"></div>
-            <a routerLink="/profile" class="dropdown-item">Update profile</a>
-            <div class="dropdown-divider"></div>
-            <a routerLink="/logout" class="dropdown-item text-danger">Logout</a>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<!-- Info message -->
+<a class="btn btn-info" onclick="toastr.info('Hi! I am info message.');">Info message</a>
+<!-- Warning message -->
+<a class="btn btn-warning" onclick="toastr.warning('Hi! I am warning message.');">Warning message</a>
+<!-- Success message -->
+<a class="btn btn-success" onclick="toastr.success('Hi! I am success message.');">Success message</a>
+<!-- Error message -->
+<a class="btn btn-danger" onclick="toastr.error('Hi! I am error message.');">Error message</a>
 
+<a class="btn btn-info" onclick="toastr.info('Hi! I am info message.');">Info message</a>
 <div class="container mt-5" style="max-width: 70%;">
+  <!-- Success message -->
+  <div *ngIf="isProfileUpdateStatus" class="alert alert-success alert-dismissible fade show text-center" role="alert">
+    {{profileUpdateStatusMessage}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
   <pre><h3 class="text-center">Edit Profile</h3></pre>
   <form (ngSubmit)="updateProfile()" #f="ngForm">
     <div class="form-row justify-content-between">
@@ -63,16 +43,17 @@
       </div>
 
     </div>
+
     <div class="row form-row justify-content-between mt-3">
       <div class="col-lg-5 col-sm-10">
-        <div class="row"><label for="fname">City</label></div>
+        <div class="row"><label for="city">City</label></div>
         <div class="row"><input type="text " class="form-control border-info" placeholder="City" name=location
             [(ngModel)]="profile.location"></div>
       </div>
       <div class="col-lg-5 col-sm-10">
-        <div class="row"><label for="lnam">Country</label></div>
-        <div class="row"><input type="text" class="form-control border-info" placeholder="Country" name=location
-            [(ngModel)]="profile.location"></div>
+        <div class="row"><label for="country">Country</label></div>
+        <div class="row"><input type="text" class="form-control border-info" placeholder="Country" name=country
+            [(ngModel)]="profile.country"></div>
       </div>
     </div>
     <div class="row form-row justify-content-between mt-3">
@@ -90,8 +71,12 @@
 
     <div class="form-row justify-content-between mt-3">
       <div class="col-lg-5 col-sm-10">
-        <div class="row"><label for="fname">DOB</label></div>
-        <div class="row"><input type="text" class="form-control border-info" placeholder="Angular, Bootstrap"></div>
+        <mat-form-field class="example" appearance="">
+          <label>DOB</label>
+          <input matInput [matDatepicker]="picker" name=dob [(ngModel)]="profile.dob">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
       </div>
 
       <div class="col-lg-5 col-sm-10 ">
@@ -101,8 +86,8 @@
         <div class="row">
           <div class="col">
             <div class="input-group">
-              <input type="text" class="form-control border-info" placeholder="" name=experience
-                [(ngModel)]="profile.experience">
+              <input type="text" class="form-control border-info" placeholder="" name=experienceY
+                [(ngModel)]="yearsOfExperience">
               <div class="input-group-append">
                 <span class="input-group-text">Years</span>
               </div>
@@ -110,8 +95,8 @@
           </div>
           <div class="col">
             <div class="input-group">
-              <input type="text" class="form-control border-info" placeholder="" name=experience
-                [(ngModel)]="profile.experience">
+              <input type="text" class="form-control border-info" placeholder="" name=experienceM
+                [(ngModel)]="monthsOfExperience">
               <div class="input-group-append">
                 <span class="input-group-text">Months</span>
               </div>
@@ -133,56 +118,6 @@
 </div>
 
 
-<!--Footer-->
-<footer id="main-footer" class="bg-light border-top border-secondary mt-5">
-  <div class="row align-items-center" style="min-height: 100px; text-align: center;">
-    <div class="col">
-      <h4>
-        <pre>Knowledge Sharing</pre>
-      </h4>
-    </div>
-    <div class="col">
-      <pre><p>Copyright &copy; <span id="year">2021</span></p></pre>
-    </div>
-    <div class="col">
-      <button class="btn btn-info" data-toggle="modal" data-target="#contactModal">Contact Us</button>
-    </div>
-  </div>
-</footer>
-
-
-<!-- CONTACT MODAL -->
-<div class="modal fade text-dark" id="contactModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Contact Us</h5>
-        <button class="close" data-dismiss="modal">
-          <span>&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea class="form-control"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-outline-info btn-block">Submit</button>
-      </div>
-    </div>
-  </div>
-</div>
 <!--Verify account modal-->
 <div class="modal fade text-dark" id="verifyAccountModal">
   <div class="modal-dialog">

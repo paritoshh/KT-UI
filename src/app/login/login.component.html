@@ -1,32 +1,15 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom border-secondary">
-  <img style="max-width: 70px; border-radius: 50%;" src="../../assets/images/kt-logo.png">
-  <a href="#" class="navbar-brand ml-3">Knowledge Sharing</a>
-  <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-    <span class="navbar-toggler-icon"></span>
+<!-- Error message -->
+<div *ngIf="isErrorInEmailRegisterFlow" class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+  {{loginRegisterFlowErrorMessage}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarCollapse">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a href="#home" class="nav-link" data-toggle="modal" data-target="#contactModal">Support</a>
-      </li>
-      <li class="nav-item">
-        <a href="#explore-head-section" class="nav-link">Explore</a>
-      </li>
-      <li class="nav-item">
-        <a href="#create-head-section" class="nav-link">Create</a>
-      </li>
-      <li class="nav-item">
-        <a href="#share-head-section" class="nav-link">Share</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-
+</div>
 
 <div class="mt-5" style="background: url(../../assets/images/Know-sharing.png); background-size: cover;">
   <div class="row" style="
-  background-color: #0a0c0ab6;
-  opacity: 0.9;">
+    background-color: #0a0c0ab6;
+    opacity: 0.9;">
     <div class="col-lg-7 d-none d-lg-block pt-3 text-center" style="color: #ffffff;">
       <h4 class="display-6">Platform to share and gain Knowledge.
       </h4>
@@ -87,7 +70,7 @@
             </div>
             <div class="form-group">
               <input type="email" class="form-control border-primary" placeholder="Email" name="email" #email="ngModel"
-                ngModel placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                ngModel placeholder="Email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$"
                 [class.success]="!email.invalid">
               <div *ngIf="email.errors &&(email.touched || email.dirty)" class="formErrorMessage">
                 <small *ngIf="email.errors.required" class="text-danger">Please provide email</small>
@@ -120,17 +103,18 @@
           <pre>Your account must be verified to login.</pre>
           <form (ngSubmit)="onSubmit(f)" #f="ngForm">
             <div class="form-group">
-              <input type="email" name="email" ngModel class="form-control form-control" placeholder="Email">
+              <input type="email" name="email" ngModel class="form-control form-control" placeholder="Email" required>
             </div>
             <div class="form-group">
-              <input type="password" name="password" ngModel class="form-control form-control" placeholder="Password">
+              <input type="password" name="password" ngModel class="form-control form-control" placeholder="Password"
+                required>
             </div>
-            <input type="submit" value="Login" class="btn btn-success btn-block mb-1">
+            <input type="submit" value="Login" class="btn btn-success btn-block mb-1" [disabled]="!f.valid">
             <div style="font-size: 16px; color: rgba(0, 0, 0, .6);">
               <pre>Don't have an account? <a class="text-primary" (click)="loginAndRegisterFormToggle()">Register</a></pre>
             </div>
             <div style="font-size: 16px; color: rgba(0, 0, 0, .6);">
-              <pre>Already have verification code? <a class="text-primary" data-toggle="modal" data-target="#verifyAccountModal">Verify</a></pre>
+              <pre>Already have verification code? <a class="text-primary" data-toggle="modal" #verifyAccountModal1 data-target="#verifyAccountModal">Verify</a></pre>
             </div>
           </form>
         </div>
@@ -159,84 +143,43 @@
     </div>
   </form>
 </div>
-<!--Footer-->
-<footer id="main-footer" class="bg-light border-top border-secondary mt-4">
-  <div class="row align-items-center" style="min-height: 100px; text-align: center;">
-    <div class="col">
-      <h4>
-        <pre>Knowledge Sharing</pre>
-      </h4>
-    </div>
-    <div class="col">
-      <pre><p>Copyright &copy; <span id="year">2021</span></p></pre>
-    </div>
-    <div class="col">
-      <button class="btn btn-secondary" data-toggle="modal" data-target="#contactModal">Contact Us</button>
-    </div>
-  </div>
-</footer>
 
-<!-- CONTACT MODAL -->
-<div class="modal fade text-dark" id="contactModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Contact Us</h5>
-        <button class="close" data-dismiss="modal">
-          <span>&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea class="form-control"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-outline-info btn-block">Submit</button>
-      </div>
-    </div>
-  </div>
-</div>
 <!--Verify account modal-->
 <div class="modal fade text-dark" id="verifyAccountModal">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <div class="container">
-          <h3 class="modal-title">Verify account</h3>
-
-          <span><small>Please check your email for the validation code and enter it here:</small></span>
-        </div>
-        <button class="close" data-dismiss="modal">
-          <span>&times;</span>
+      <!--Erorr in verification-->
+      <div *ngIf="isErrorInValidateAuthCodeLaterFlow"
+        class="alert alert-danger alert-dismissible fade show text-center m-2" role="alert">
+        {{validateAuthCodeLaterFlowErrorMessage}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form>
+      <form (ngSubmit)="validateAuthCodeLater(codeform)" #codeform="ngForm">
+        <div class="modal-header">
+          <div class="container">
+            <h3 class="modal-title">Verify account</h3>
+            <span><small>Please check your email for the validation code and enter it here:</small></span>
+          </div>
+          <button class="close" #closebutton data-dismiss="modal">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control">
+            <input type="email" name="email" id="email" ngModel class="form-control" required>
           </div>
           <div class="form-group">
             <label for="message">Verification Code</label>
-            <input type="text" class="form-control">
+            <input type="text" name="code" id="code" ngModel class="form-control" required>
           </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-outline-success btn-block">Submit</button>
-      </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-success btn-block" [disabled]="!codeform.valid">Submit</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

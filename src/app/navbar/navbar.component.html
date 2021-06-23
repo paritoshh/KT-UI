@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom border-secondary">
+  <img style="max-width: 50px; border-radius: 50%;" src="../../assets/images/bulb.jpeg">
+  <a href="#" class="navbar-brand ml-3">Knowledge Sharing</a>
+  <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a routerLink="/home" routerLinkActive="active" class="nav-link active">Home</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/sessions/upcoming" routerLinkActive="active" class="nav-link">Upcoming session</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/sessions/host" routerLinkActive="active" class="nav-link">Host session</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/sessions/own" routerLinkActive="active" class="nav-link">Your sessions</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="modal" data-target="#contactModal">Support</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a href="#share-head-section" class="nav-link pt-0 dropdown-toggle" data-toggle="dropdown"><img
+            style="max-width: 40px; border-radius: 100%;" src="../../assets/images/profile-logo.png"></a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <h4 class="dropdown-header"><strong>{{username}}</strong></h4>
+          <div class="dropdown-divider"></div>
+          <a routerLink="/profile" class="dropdown-item">Update profile</a>
+          <div class="dropdown-divider"></div>
+          <a routerLink="/logout" class="dropdown-item text-danger">Logout</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

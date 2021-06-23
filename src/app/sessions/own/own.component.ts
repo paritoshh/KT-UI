@@ -38,33 +38,33 @@ export class OwnComponent implements OnInit {
         }
       );
   }
-  private populateRegisteredAndHostingSessions(){
+  private populateRegisteredAndHostingSessions() {
     //fetching upcoming sessions details
-    this.sessions = this.sessionService.getSessions();
+    //this.sessions = this.sessionService.getSessions();
     if (this.sessions == null || this.sessions == undefined) {
       this.sessionService.fetchAllSessionsDB()
         .subscribe(
           data => {
             console.log("data:: " + data.length);
             //checking a condition, if user doesn't have any registered session in his profile.
-            if(this.registeredSessionsIds!=undefined || this.registeredSessionsIds!=null){
+            if (this.registeredSessionsIds != undefined || this.registeredSessionsIds != null) {
               this.registeredSessions = data.filter(s =>
-                s.status.toLowerCase() === 'scheduled'
+                (s.status.toLowerCase() === 'scheduled' || s.status.toLowerCase() === 'canceled')
                 &&
                 this.registeredSessionsIds.includes(s.id)
               );
-              this.registeredSessions.forEach(rSession=>
-                rSession.scheduledDate = this.datepipe.transform(rSession.scheduledDate, 'MMM d, y, h:mm a')
+              this.registeredSessions.forEach(rSession =>
+                rSession.scheduledDate = this.datepipe.transform(rSession.scheduledDate, 'MMM d, y')
               )
             }
-            
+
             this.hostedSessions = data.filter(s =>
-              s.status.toLowerCase() === 'scheduled'
+              (s.status.toLowerCase() === 'scheduled' || s.status.toLowerCase() === 'canceled')
               &&
               s.presenters.includes(this.loggedInEmail)
             );
-            this.hostedSessions.forEach(hSession=>{
-              hSession.scheduledDate = this.datepipe.transform(hSession.scheduledDate, 'MMM d, y, h:mm a');
+            this.hostedSessions.forEach(hSession => {
+              hSession.scheduledDate = this.datepipe.transform(hSession.scheduledDate, 'MMM d, y');
             });
             this.sessionService.setSessions(data);
           }
@@ -72,13 +72,13 @@ export class OwnComponent implements OnInit {
 
     }
     else {
-      if(this.registeredSessionsIds!=undefined || this.registeredSessionsIds!=null){
+      if (this.registeredSessionsIds != undefined || this.registeredSessionsIds != null) {
         this.registeredSessions = this.sessions.filter(s =>
           s.status.toLowerCase() === 'scheduled'
           &&
           this.registeredSessionsIds.includes(s.id)
         );
-        this.registeredSessions.forEach(rSession=>
+        this.registeredSessions.forEach(rSession =>
           rSession.scheduledDate = this.datepipe.transform(rSession.scheduledDate, 'MMM d, y, h:mm a')
         )
       }
@@ -87,7 +87,7 @@ export class OwnComponent implements OnInit {
         &&
         s.presenters.includes(this.loggedInEmail)
       );
-      this.hostedSessions.forEach(hSession=>{
+      this.hostedSessions.forEach(hSession => {
         hSession.scheduledDate = this.datepipe.transform(hSession.scheduledDate, 'MMM d, y, h:mm a');
       });
     }

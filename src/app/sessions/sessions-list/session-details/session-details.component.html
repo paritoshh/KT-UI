@@ -1,51 +1,15 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom border-secondary">
-  <div class="container">
-    <img style="max-width: 50px; border-radius: 50%;" src="../../assets/images/bulb.jpeg">
-    <a href="#" class="navbar-brand ml-3">Knowledge Sharing</a>
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a routerLink="/home" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/sessions/host" class="nav-link">Host session</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/sessions/own" class="nav-link">Your sessions</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="modal" data-target="#contactModal">Support</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a href="#share-head-section" class="nav-link pt-0 dropdown-toggle" data-toggle="dropdown"><img
-              style="max-width: 40px; border-radius: 100%;" src="../../assets/images/profile-logo.png"></a>
-          <div class="dropdown-menu">
-            <h4 class="dropdown-header"><strong>Paritosh Agarwal</strong></h4>
-            <div class="dropdown-divider"></div>
-            <a routerLink="/profile" class="dropdown-item">Update profile</a>
-            <div class="dropdown-divider"></div>
-            <a routerLink="/logout" class="dropdown-item text-danger">Logout</a>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
 <!--Main page-->
 
 <div class="bg-light" id="topic" style="height: 400px; position:relative;">
   <div class="" style="height: 400px; position:relative; padding-left: 10%; background-color: rgba(245, 245, 245, 0.678);
   opacity: 0.9;">
     <h4 id="presenter" style="padding-top: 80px;">
-      <pre>By Paritosh Agarwal</pre>
+      <pre>By,</pre>
+      <pre *ngFor="let presenterName of presentersNames;" class="text-dark font-weight-bold">{{presenterName}}</pre>
     </h4>
     <h3 class="display-7" style="position: relative; top: 10%;">{{session.topic}}</h3>
     <h5 style="position: absolute; bottom: 0px;">
-      <pre>Scheduled on | Mar 30, 2021, 6:49 PM</pre>
+      <pre>Scheduled on | {{session.scheduledDate}}  {{session.fromTime}} to {{session.toTime}}</pre>
     </h5>
   </div>
 </div>
@@ -69,19 +33,38 @@
 <!--Buttons-->
 <div class="container">
   <div class="row mt-4 justify-content-around">
-    <div class="col-3">
-      <div *ngIf="session.status.toLowerCase()=='scheduled'">
-        <button class="btn btn-info btn-block" [disabled]=isHostingSession
+    <div class="col-4">
+      <div *ngIf="session.status.toLowerCase()=='scheduled' && !isSessionDatePassed && !isHostingSession">
+        <button class="btn btn-block" [ngStyle]="{'background-color':isRegistered ? '#F36157' : '#5cb85c'}"
           (click)="registerUnregister()">{{isRegistered ? 'Unregister' : 'Register'}}</button>
       </div>
-      <div *ngIf="session.status.toLowerCase()!='scheduled'">
+      <div *ngIf="!isSessionDatePassed && session.status.toLowerCase() != 'canceled' && isHostingSession">
+        <button class="btn btn-danger btn-block" data-toggle="modal"
+          data-target="#cancelSessionConfirmation">Cancel</button>
+
+      </div>
+      <div *ngIf="isSessionDatePassed && isHostingSession">
+        <button class="btn btn-info btn-block" data-toggle="modal"
+          data-target="#cancelSessionConfirmation">Update</button>
+      </div>
+
+      <div *ngIf="(isSessionDatePassed && session.status.toLowerCase()!='canceled' && !isHostingSession)">
         <button class="btn btn-info btn-block"
           (click)="openFeedbackBlock();">{{isFeedBackSubmittedByThisUser ? 'View Feedback' : 'Submit Feedback'}}</button>
       </div>
+      <div *ngIf="session.status.toLowerCase() === 'canceled'">
 
+        <p class="text-center text-danger disabled muted border border-danger p-2"><strong>This
+            session has been
+            canceled.</strong>
+        </p>
+      </div>
     </div>
-    <div class="col-3">
-      <button class="btn btn-warning btn-block" routerLink="/sessions/upcoming" type="button">Cancel</button>
+    <div *ngIf="!isSessionDatePassed" class="col-4">
+      <button class="btn btn-warning btn-block" routerLink="/sessions/upcoming" type="button">Back</button>
+    </div>
+    <div *ngIf="isSessionDatePassed" class="col-4">
+      <button class="btn btn-warning btn-block" routerLink="/sessions/recent" type="button">Back</button>
     </div>
   </div>
 </div>
@@ -99,84 +82,26 @@
   </div>
 </div>
 
-
-<!--Footer-->
-<footer id="main-footer" class="bg-light border-top border-secondary mt-5">
-  <div class="row align-items-center" style="min-height: 100px; text-align: center;">
-    <div class="col">
-      <h4>
-        <pre>Knowledge Sharing</pre>
-      </h4>
-    </div>
-    <div class="col">
-      <pre><p>Copyright &copy; <span id="year">2021</span></p></pre>
-    </div>
-    <div class="col">
-      <button class="btn btn-info" data-toggle="modal" data-target="#contactModal">Contact Us</button>
-    </div>
-  </div>
-</footer>
-
-<!-- CONTACT MODAL -->
-<div class="modal fade text-dark" id="contactModal">
+<!-- Cancel session confirmation modal -->
+<div class="modal fade text-dark" id="cancelSessionConfirmation">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Contact Us</h5>
-        <button class="close" data-dismiss="modal">
+        <h5 class="modal-title text-center my-4">Cancel this session.</h5>
+        <button class="close" #closeButton data-dismiss="modal">
           <span>&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea class="form-control"></textarea>
-          </div>
-        </form>
+        <pre>Are you sure ?</pre>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-outline-info btn-block">Submit</button>
+      <div class="modal-footer d-inline-block">
+        <!-- <input type="submit" class="btn btn-outline-info btn-block"> -->
+        <button class="btn btn-outline-danger" (click)="cancelSession()">Proceed</button>
       </div>
-    </div>
-  </div>
-</div>
-<!--Verify account modal-->
-<div class="modal fade text-dark" id="verifyAccountModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="container">
-          <h3 class="modal-title">Verify account</h3>
-
-          <span><small>Please check your email for the validation code and enter it here:</small></span>
-        </div>
-        <button class="close" data-dismiss="modal">
-          <span>&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="message">Verification Code</label>
-            <input type="text" class="form-control">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-outline-success btn-block">Submit</button>
+      <div class="modal-footer d-inline-block">
+        <!-- <input type="button" class="btn btn-outline-info btn-block"> -->
+        <button class="btn btn-outline-info" (click)="closeModal()">Cancel</button>
       </div>
     </div>
   </div>

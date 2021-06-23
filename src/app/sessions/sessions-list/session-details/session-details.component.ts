@@ -1,4 +1,5 @@
 import { DatePipe } from '@angular/common';
+import { ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Profile } from 'src/app/profile/profile.model';
@@ -21,6 +22,7 @@ export class SessionDetailsComponent implements OnInit {
   registerSessionProfileModel: RegisterSessionProfile;
   isFeedbackVisible: boolean;
   feedbackToPassInFeedbackComponent: Feedback;
+  @ViewChild('closeButton') closebutton;
 
 
   id: string;
@@ -32,10 +34,12 @@ export class SessionDetailsComponent implements OnInit {
   indexOfSessionWhichNeedsToBeRemoved: number;
   isHostingSession: boolean;
   isFeedBackSubmittedByThisUser: boolean = false;
+  presentersNames: String[] = [];
   //sessionType: string;
   //this variable will be used to solve a defect, where user register a session and unregister right away.
   //That time -1 goes in case of unregister also.
   numberOfRegisteredSessions: number;
+  isSessionDatePassed: Boolean;
 
   constructor(private sessionService: SessionsService, private route: ActivatedRoute,
     private profileService: ProfileService, private auth: AuthorizationService,
@@ -45,8 +49,8 @@ export class SessionDetailsComponent implements OnInit {
 
     this.loggedInEmail = this.auth.getAuthenticatedUser();
     this.id = this.route.snapshot.params['id'];
-    //fetching a session details
 
+    //fetching a session details
     this.session = this.sessionService.fetchSessionDetailsById(this.id);
     if (this.session == null || this.session == undefined) {
       this.sessionService.fetchSessionDetailsByIdFromDB(this.id)
@@ -54,11 +58,13 @@ export class SessionDetailsComponent implements OnInit {
           data => {
             this.session = data;
             this.isHostingSession = data.presenters.includes(this.loggedInEmail);
-            this.presenters = this.session.presenters.join(", ");
-            this.tags = this.session.tags;
+            this.presenters = data.presenters.join(",");
+            this.tags = data.tags;
             this.fetchProfileDetails();
             this.isFeedbackSubmitted();
-            this.session.scheduledDate = this.datepipe.transform(this.session.scheduledDate, 'MMM d, y, h:mm a');
+            this.fetchProfileDetailsOfSessionPresenter();
+            this.session.scheduledDate = this.datepipe.transform(this.session.scheduledDate, 'MMM d, y');
+            this.isSessionDatePassed = new Date(this.session.scheduledDate) < new Date();
           }
         );
     }
@@ -69,7 +75,9 @@ export class SessionDetailsComponent implements OnInit {
       this.tags = this.session.tags;
       this.fetchProfileDetails();
       this.isFeedbackSubmitted();
+      this.fetchProfileDetailsOfSessionPresenter();
     }
+
 
   }
   //fetching existing profile details
@@ -87,6 +95,21 @@ export class SessionDetailsComponent implements OnInit {
           }
         }
       );
+  }
+
+  //fetching existing profile details
+  fetchProfileDetailsOfSessionPresenter() {
+    let presenters = this.session.presenters;
+    for (var presenter of presenters) {
+      this.profileService.retrieveProfile(presenter)
+        .subscribe(
+          data => {
+            this.presentersNames.push(data.firstName + " " + data.lastName);// = data.firstName + " " + data.lastName;
+          }
+        );
+
+    }
+
   }
 
   //finding if user has submitted the feedback.
@@ -133,9 +156,48 @@ export class SessionDetailsComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
+          this.profileService.cache = {};
         }
       );
 
+  }
+
+  /**
+   * Cancel your hosting session.
+   */
+
+  /*
+
+  this.auth.confirmAuthCode(code).subscribe(
+     (data) => {
+       this.codeWasConfirmed = true;
+       this.confirmCode = false;
+       alert('Verification success.');
+     },
+     (err) => {
+       console.log(err);
+       this.loginRegisterFlowErrorMessage = err.message;
+       this.isErrorInEmailRegisterFlow = true;
+     });this._router.navigate(['/sessions/own']);
+     */
+
+  cancelSession() {
+    this.closebutton.nativeElement.click();
+    this.sessionService.cancelHostedSession(this.id, this.loggedInEmail, this.session.scheduledDate, this.session.topic,
+      this.session.description,
+      this.session.presenters, 'Canceled')
+      .subscribe(
+        data => {
+          console.log(data);
+          this.session.status = 'canceled';
+          //this.isFeedBackSubmittedByThisUser = true;
+          //this.feedbackSubmittedConfirmation.emit(this.isFeedBackSubmittedByThisUser);
+        }
+      );
+  }
+
+  closeModal() {
+    this.closebutton.nativeElement.click();
   }
 
   openFeedbackBlock() {

@@ -1,7 +1,11 @@
+import { ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthorizationService } from '../shared/authorization.service';
+
+//date
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -9,21 +13,33 @@ import { AuthorizationService } from '../shared/authorization.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  @ViewChild('closebutton') closebutton;
 
   confirmCode: boolean = false;
   codeWasConfirmed: boolean = false;
-  error: string = "";
-  isErrorInVerifyEmail: boolean = false;
-  verifyEmailErrorMessage: string;
-  emailVerificationMessage: boolean = false;
+  isErrorInEmailRegisterFlow: boolean = false;
+  loginRegisterFlowErrorMessage: string;
+  isErrorInValidateAuthCodeLaterFlow: boolean = false;
+  validateAuthCodeLaterFlowErrorMessage: string;
+
   //New
   isLoginFormRequested = false;
 
   //register
-  email : string;
+  email: string;
+
+  //date
+  selectedDate: any;
+
+  //Date
+  public formGroup = new FormGroup({
+    date: new FormControl(null, [Validators.required]),
+    date2: new FormControl(null, [Validators.required])
+  })
 
 
   ngOnInit(): void {
+
   }
   constructor(private auth: AuthorizationService,
     private _router: Router) {
@@ -41,9 +57,8 @@ export class LoginComponent implements OnInit {
           this._router.navigate(['home']);
         },
         err => {
-          this.isErrorInVerifyEmail = true;
-          this.verifyEmailErrorMessage = err.message;
-          this.error = "Confirm Authorization Error has occurred1111";
+          this.isErrorInEmailRegisterFlow = true;
+          this.loginRegisterFlowErrorMessage = err.message;
 
         }
       );
@@ -52,29 +67,39 @@ export class LoginComponent implements OnInit {
   activateAccount() {
     this.confirmCode = true;
   }
+
   validateAuthCode(form: NgForm) {
     const code = form.value.code;
-    const email = form.value.email;
 
+    this.auth.confirmAuthCode(code).subscribe(
+      (data) => {
+        this.codeWasConfirmed = true;
+        this.confirmCode = false;
+        alert('Verification success.');
+      },
+      (err) => {
+        console.log(err);
+        this.loginRegisterFlowErrorMessage = err.message;
+        this.isErrorInEmailRegisterFlow = true;
+      });
+  }
+
+  validateAuthCodeLater(form: NgForm) {
+    const code = form.value.code;
+    const email = form.value.email;
     this.auth.confirmAuthCodeLater(code, email).subscribe(
       (data) => {
         this.codeWasConfirmed = true;
         this.confirmCode = false;
+        this.closebutton.nativeElement.click();
       },
       (err) => {
         console.log(err);
-        this.isErrorInVerifyEmail = true;
-        this.verifyEmailErrorMessage = err.message;
-        //when user will click on cross button of error message, verify account section will be opened.
-        this.confirmCode = true;
-        this.error = "Confirm Authorization Error has occurred";
+        this.isErrorInValidateAuthCodeLaterFlow = true;
+        this.validateAuthCodeLaterFlowErrorMessage = err.message;
       });
   }
-  closeErrorMessage() {
-    this.isErrorInVerifyEmail = false;
-  }
-
-  loginAndRegisterFormToggle(){
+  loginAndRegisterFormToggle() {
     this.isLoginFormRequested = !this.isLoginFormRequested;
   }
 
@@ -85,15 +110,14 @@ export class LoginComponent implements OnInit {
     const name = form.value.name;
     const password = form.value.password;
     this.auth.register(email, name, password).subscribe(
-      (data) => {        
+      (data) => {
         this.confirmCode = true;
         form.reset();
       },
       (err) => {
         console.log(err);
-        this.isErrorInVerifyEmail = true;
-        this.verifyEmailErrorMessage = err.message;
-        this.error = "Registration Error has occurred";
+        this.isErrorInEmailRegisterFlow = true;
+        this.loginRegisterFlowErrorMessage = err.message;
       }
     );
   }
